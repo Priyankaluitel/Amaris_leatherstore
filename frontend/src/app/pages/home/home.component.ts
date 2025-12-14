@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { addToCart } from '../../store/cart/cart.actions';
 
-@Component({
+// constructor(store: Store) {
+//   console.log('STORE INJECTED:', store);
+// }
+ @Component({
   selector: 'app-home',
-   standalone:true,
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+ standalone: true,
+ templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  title = 'Amaris Leather';
+  constructor(private store: Store) {}
+
+  addItem() {
+    this.store.dispatch(addToCart({
+      item: {
+        id: 1,
+        name: 'Leather Bag',
+        price: 1200,
+        quantity: 1
+      }
+    }));
+  }
 }
-export class LoginComponent {}
-export class ProductsComponent {}
+
