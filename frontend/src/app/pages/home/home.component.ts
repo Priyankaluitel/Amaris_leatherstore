@@ -5,11 +5,15 @@ import { addToCart } from '../../store/cart/cart.actions';
 // constructor(store: Store) {
 //   console.log('STORE INJECTED:', store);
 // }
- @Component({
+import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+
+@Component({
   selector: 'app-home',
- standalone: true,
- templateUrl: './home.component.html'
+  standalone: true,
+  imports: [ProductCardComponent],
+  templateUrl: './home.component.html',
 })
+
 export class HomeComponent {
   constructor(private store: Store) {}
 

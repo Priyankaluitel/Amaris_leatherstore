@@ -8,6 +8,6 @@ export class ProductsComponent {}
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
-export class Cart {
+export class CartComponent {
 
 }

@@ -4,6 +4,8 @@ import { bootstrapApplication } from '@angular/platform-browser';
 // import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
+import { routes } from './app/app.routes';
 // import { routes } from './app/app.routes';
 // import { cartReducer } from './app/store/cart/cart.reducer';
 
@@ -19,4 +21,8 @@ bootstrapApplication(AppComponent, appConfig)
 //     })
 //   ]
 // })
-.catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [provideRouter(routes)]
+}
+);
+

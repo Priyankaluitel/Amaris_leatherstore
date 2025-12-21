@@ -5,11 +5,15 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProductsComponent } from './pages/products/products.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+   { path: 'cart', component: CartComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'products', component: ProductsComponent },
     { path: 'team', component: OurteamComponent },
   { path: 'services', component: OurservicesComponent },
