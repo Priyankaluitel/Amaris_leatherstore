@@ -1,1 +1,10 @@
-<p>register works!</p>
+<form (ngSubmit)="submit()">
+  <input formControlName="name">
+  <input formControlName="email">
+  <input type="password" formControlName="password">
+  <select formControlName="role">
+    <option value="CUSTOMER">Customer</option>
+    <option value="ADMIN">Admin</option>
+  </select>
+  <button>Register</button>
+</form>

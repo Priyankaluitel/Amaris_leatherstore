@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component,Input  } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive} from '@angular/router';
@@ -7,22 +6,13 @@ import { RouterLink, RouterLinkActive} from '@angular/router';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [AsyncPipe,
+  imports: [
     RouterLinkActive,
      RouterLink],
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
-  cartCount$;
-
-  constructor(private store: Store<any>) {
-    this.cartCount$ = this.store.select('cart').pipe(
-      map(cart =>
-        cart.items.reduce(
-          (sum: number, item: any) => sum + item.quantity,
-          0
-        )
-      )
-    );
-  }
+   cartCount = 0;
 }
+
+
