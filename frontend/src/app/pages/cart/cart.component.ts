@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
-export class LoginComponent {}
-export class HomeComponent {}
-export class ProductsComponent {}
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-cart',
-  standalone:true,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+  styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
+  cartItems = [
+    { name: 'Leather Bag', price: 1200, quantity: 1 },
+    { name: 'Wallet', price: 450, quantity: 2 },
+    { name: 'Belt', price: 300, quantity: 1 }
+  ];
 
+  get totalAmount(): number {
+    return this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }
 }

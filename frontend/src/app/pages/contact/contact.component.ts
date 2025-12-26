@@ -1,24 +1,27 @@
-
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  template: `
-    <div class="min-h-screen flex items-center justify-center">
-      <p class="text-lg font-semibold">
-        Redirecting to Home...
-      </p>
-    </div>
-  `
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './contact.component.html',
+  styleUrls: ['./contact.component.css']
 })
-export class ContactComponent implements OnInit {
-  constructor(private router: Router) {}
+export class ContactComponent {
+  contactForm;
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.router.navigate(['/home']);
-    }, 1000);
+  constructor(private fb: FormBuilder) {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', Validators.required]
+    });
+  }
+
+  submit() {
+    console.log(this.contactForm.value);
+    alert('Message sent!');
   }
 }

@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
-export class LoginComponent {}
-export class HomeComponent {}
-export class ProductsComponent {}
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-ourteam',
-   standalone:true,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './ourteam.component.html',
-  styleUrl: './ourteam.component.css',
+  styleUrls: ['./ourteam.component.css']
 })
 export class OurteamComponent {
-
+  teamMembers = [
+    { name: 'Priyanka Luitel', role: 'CEO' },
+    { name: 'Bobby Singh', role: 'Developer' },
+    { name: 'Kazol', role: 'Designer' }
+  ];
 }
