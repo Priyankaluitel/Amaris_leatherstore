@@ -1,0 +1,23 @@
+<h2>Your Cart</h2>
+
+<div *ngIf="cartItems.length === 0">
+  Cart is empty
+</div>
+
+<div *ngFor="let item of cartItems">
+  <h4>{{ item.product.name }}</h4>
+  <p>Price: {{ item.product.price }}</p>
+
+  <input
+    type="number"
+    [value]="item.quantity"
+   (change)="updateQuantity(item.product.id, +$event.target.value)"
+>
+
+  <button (click)="removeItem(item.product.id)">
+    Remove
+  </button>
+</div>
+
+<h3>Total: {{ total }}</h3>
+

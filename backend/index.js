@@ -40,3 +40,4 @@ app.post("/products", async (req, res) => {
 
   res.json(product);
 });
+
