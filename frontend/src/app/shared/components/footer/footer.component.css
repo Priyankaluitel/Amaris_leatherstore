@@ -26,8 +26,51 @@ app-footer {
   text-align: center;
 }
 .footer {
-  background: #3e2723;
-  color: white;
-  padding: 20px;
-  text-align: center;
+  background: #111;
+  color: #fff;
+  padding-top: 2rem;
+  margin-top: 3rem;
 }
+
+.footer-content {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1 1 200px;
+}
+
+.footer-section h4 {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+}
+
+.footer-section a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  border-top: 1px solid #333;
+  margin-top: 1.5rem;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+

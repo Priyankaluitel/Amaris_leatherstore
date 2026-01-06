@@ -11,12 +11,16 @@ import { OurteamComponent } from './pages/ourteam/ourteam.component';
 import { OurservicesComponent } from './pages/ourservices/ourservices.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { FaqsComponent } from './pages/faq/faq.component';
+import { ProductListComponent } from '../products/product-list.compomnent';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
+  {path: 'login',loadComponent: () =>
+    import('./pages/login/login.component')
+      .then(m => m.LoginComponent)
+},
   { path: 'register', component: RegisterComponent },
 
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
@@ -26,6 +30,8 @@ export const routes: Routes = [
   { path: 'team', component: OurteamComponent },
   { path: 'services', component: OurservicesComponent },
   { path: 'contact', component: ContactComponent },
+ { path: '', component: ProductListComponent },   // 👈 HOME PAGE
+  { path: 'products', component: ProductListComponent },
 
   { path: '**', redirectTo: 'home' }
 ];
