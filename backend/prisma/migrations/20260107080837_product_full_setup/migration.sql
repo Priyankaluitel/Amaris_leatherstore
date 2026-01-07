@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "Category" AS ENUM ('ELECTRONICS', 'CLOTHING', 'SPORTS', 'BOOKS', 'OTHER');
