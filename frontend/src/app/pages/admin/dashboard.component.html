@@ -1,0 +1,34 @@
+<div class="admin">
+  <h2>Admin Dashboard</h2>
+
+  <div class="add-box">
+    <input placeholder="Product Name" [(ngModel)]="newProduct.name" />
+    <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
+    <input placeholder="Category" [(ngModel)]="newProduct.category" />
+    <button (click)="addProduct()">Add Product</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>{{ p.name }}</td>
+        <td>₹{{ p.price }}</td>
+        <td>{{ p.category }}</td>
+        <td>
+          <button class="danger" (click)="deleteProduct(p.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

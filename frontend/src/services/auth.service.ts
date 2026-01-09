@@ -6,42 +6,60 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private API = 'http://localhost:3000/auth';
 
   constructor(private http: HttpClient) {}
 
-login(email: string, password: string) {
-  return this.http.post<any>(`${this.apiUrl}/login`, {
+  // Login with email, password, captchaToken
+login(email: string, password: string, captchaToken: string) {
+  return this.http.post<any>('http://localhost:3000/auth/login', {
     email,
     password,
+    captchaToken,
   }).pipe(
-    tap((res) => {
+    tap(res => {
       localStorage.setItem('token', res.access_token);
     })
   );
 }
-getUserRole(): string | null {
-  const token = this.getToken();
-  if (!token) return null;
-
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  return payload.role;
-}
-
-isAdmin(): boolean {
-  return this.getUserRole() === 'ADMIN';
-}
 
 
-  logout() {
-    localStorage.removeItem('token');
+  // Register (optional)
+  register(email: string, password: string, role: string = 'CUSTOMER') {
+    return this.http.post(`${this.API}/register`, { email, password, role });
   }
 
+  // Get JWT from localStorage
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
+  // Decode JWT and get user role
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.role || null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Check if user is admin
+  isAdmin(): boolean {
+    return this.getUserRole() === 'ADMIN';
+  }
+
+  // Check if user is logged in
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  // Logout user
+  logout() {
+    localStorage.removeItem('token');
+  }
 }
+

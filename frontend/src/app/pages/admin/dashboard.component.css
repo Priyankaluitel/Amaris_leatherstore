@@ -1,0 +1,35 @@
+.admin {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.add-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 6px;
+}
+
+button {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.danger {
+  background: crimson;
+  color: white;
+  border: none;
+}

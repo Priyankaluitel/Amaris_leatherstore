@@ -1,0 +1,19 @@
+<div class="dashboard">
+  <h2>My Orders</h2>
+
+  <div *ngIf="orders.length === 0" class="empty">
+    You have not purchased anything yet.
+  </div>
+
+  <div class="order-card" *ngFor="let order of orders">
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Date:</strong> {{ order.createdAt | date }}</p>
+    <p><strong>Total:</strong> ₹{{ order.total }}</p>
+
+    <ul>
+      <li *ngFor="let item of order.items">
+        {{ item.product.name }} × {{ item.quantity }}
+      </li>
+    </ul>
+  </div>
+</div>
