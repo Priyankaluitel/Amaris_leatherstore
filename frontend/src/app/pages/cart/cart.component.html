@@ -1,4 +1,4 @@
-<h2>Your Cart</h2>
+<!-- <h2>Your Cart</h2>
 <div class="cart-container" *ngIf="cartItems.length > 0; else emptyCart">
   <div class="cart-item" *ngFor="let item of cartItems">
     <p><strong>{{ item.name }}</strong></p>
@@ -14,6 +14,42 @@
 
 <ng-template #emptyCart>
   <p>Your cart is empty.</p>
+</ng-template> -->
+<h2>Your Cart</h2>
+
+<p *ngIf="loading">Loading cart...</p>
+
+<div *ngIf="cartItems.length > 0; else emptyCart">
+  <div
+    *ngFor="let item of cartItems"
+    class="border p-3 mb-3 rounded"
+  >
+    <p><strong>{{ item.name }}</strong></p>
+    <p>
+      ₹ {{ item.price }} × {{ item.quantity }} =
+      ₹ {{ item.price * item.quantity }}
+    </p>
+
+    <button
+      class="text-red-500 mt-2"
+      (click)="remove(item)"
+    >
+      Remove
+    </button>
+  </div>
+
+  <p class="font-bold mt-4">
+    Total: ₹ {{ totalAmount }}
+  </p>
+
+  <button class="checkout-btn mt-4">
+    Proceed to Checkout
+  </button>
+</div>
+
+<ng-template #emptyCart>
+  <p>Your cart is empty.</p>
 </ng-template>
+
 
 

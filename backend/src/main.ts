@@ -18,6 +18,12 @@ async function bootstrap() {
   // Serve static files from uploads folder
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads',
+     });
+      // ✅ Enable CORS for Angular dev server
+  app.enableCors({
+    origin: 'http://localhost:4200', // Angular dev URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
   });
 
   await app.listen(3000);

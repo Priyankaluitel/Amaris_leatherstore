@@ -12,9 +12,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptors';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'login' },
   {path: 'cart', component: CartComponent},
   {path: 'admin',
+    canActivate: [AuthGuard],
   children: [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'add-product', component: AddProductComponent },

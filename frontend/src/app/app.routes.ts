@@ -14,36 +14,40 @@ import { CustomerDashboardComponent } from './pages/customer/dashboard.component
 import { AuthGuard } from './guards/auth.guard';
 import { adminGuard, customerGuard } from './guards/role.guard';
 export const routes: Routes = [
+  // Public pages
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-
   { path: 'home', component: HomeComponent },
 
-  {path: 'login',loadComponent: () =>
-    import('./pages/login/login.component')
-      .then(m => m.LoginComponent)
-},
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.component').then(m => m.LoginComponent),
+  },
   { path: 'register', component: RegisterComponent },
-
-  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
-  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
 
   { path: 'faq', component: FaqsComponent },
   { path: 'team', component: OurteamComponent },
   { path: 'services', component: OurservicesComponent },
   { path: 'contact', component: ContactComponent },
- { path: '', component: ProductListComponent },   // 👈 HOME PAGE
-  { path: 'products', component: ProductListComponent },
-   {
+  { path: 'products', component: ProductsComponent },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+
+  // Dashboards
+  {
     path: 'admin/dashboard',
     loadComponent: () =>
-      import('./pages/admin/dashboard.component').then(m => m.AdminDashboardComponent),
-    canActivate: [AuthGuard],
+      import('./pages/admin/dashboard.component')
+        .then(m => m.AdminDashboardComponent),
+    canActivate: [AuthGuard, adminGuard],
   },
   {
     path: 'customer/dashboard',
     loadComponent: () =>
-      import('./pages/customer/dashboard.component').then(m => m.CustomerDashboardComponent),
+      import('./pages/customer/dashboard.component')
+        .then(m => m.CustomerDashboardComponent),
     canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: 'home' }
+
+  // Always last
+  { path: '**', redirectTo: 'home' },
 ];

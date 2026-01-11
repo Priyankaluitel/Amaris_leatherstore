@@ -15,8 +15,10 @@ export class AdminGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/dashboard']);
+    // Non-admin users go to customer dashboard
+    this.router.navigate(['/customer/dashboard']);
     return false;
   }
 }
+
 
