@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/auth',
+  production: true,
+  apiUrl: 'https://your-api.com',
   recaptchaSiteKey: '6LcGoTUsAAAAALfFf3oRozdbVdJFA-7eAY-k94iO',
   captchaEnabled: true,
 };

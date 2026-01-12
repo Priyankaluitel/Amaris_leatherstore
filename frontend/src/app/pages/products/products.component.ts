@@ -19,7 +19,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductService, Product } from '../../../services/product.service';
+import { ProductService, Product } from '../../../services/products.service';
 import { CartService } from '../../../services/cart.service';
 
 @Component({
@@ -52,11 +52,13 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  addToCart(product: Product) {
-    this.cartService.addToCart(product.id).subscribe({
-      next: () => alert('Added to cart 🛒'),
-      error: () => alert('Failed to add to cart'),
-    });
-  }
+addToCart(product: Product) {
+  if (!product.id) return; // guard against undefined
+  this.cartService.addToCart(product.id).subscribe({
+    next: () => alert('Added to cart'),
+    error: () => alert('Failed to add to cart'),
+  });
+}
+
 }
 

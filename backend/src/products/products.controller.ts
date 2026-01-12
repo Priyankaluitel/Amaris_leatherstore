@@ -1,39 +1,29 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Param,
-  Body,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { JwtAuthGuard} from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Category } from '@prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { UpdateProductDto} from './dto/update-product.dto';
+
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly products: ProductsService) {}
+  constructor(private products: ProductsService) {}
 
-  // ✅ PUBLIC: get all products (optional category filter)
- @Get()
-getAll(@Query('category') category?: string) {
-  return this.products.findAll(category); // ✅ category argument now accepted
-}
+  @Get()
+  getAll(@Query('category') category?: string) {
+    // Convert query string to Prisma enum if valid
+    const catEnum = category ? (Category[category.toUpperCase() as keyof typeof Category] as Category) : undefined;
+    return this.products.findAll(catEnum);
+  }
 
-
-  // ✅ PUBLIC: product detail
   @Get(':id')
   getOne(@Param('id') id: string) {
     return this.products.findOne(+id);
   }
 
-  // 🔐 ADMIN: create product
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
@@ -41,7 +31,6 @@ getAll(@Query('category') category?: string) {
     return this.products.create(dto);
   }
 
-  // 🔐 ADMIN: update product
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
@@ -49,7 +38,6 @@ getAll(@Query('category') category?: string) {
     return this.products.update(+id, dto);
   }
 
-  // 🔐 ADMIN: delete product
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
@@ -57,4 +45,3 @@ getAll(@Query('category') category?: string) {
     return this.products.remove(+id);
   }
 }
-

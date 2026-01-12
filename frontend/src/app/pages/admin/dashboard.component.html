@@ -31,4 +31,25 @@
       </tr>
     </tbody>
   </table>
+  <div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
+  <form (ngSubmit)="addProduct()">
+    <input [(ngModel)]="product.name" placeholder="Name" class="border p-2 m-1"/>
+    <input [(ngModel)]="product.price" placeholder="Price" type="number" class="border p-2 m-1"/>
+    <input [(ngModel)]="product.category" placeholder="Category" class="border p-2 m-1"/>
+    <input type="file" (change)="onFileChange($event)" />
+    <button class="bg-blue-500 text-white p-2 rounded">Add Product</button>
+  </form>
+
+  <div class="grid grid-cols-4 gap-4 mt-6">
+    <div *ngFor="let p of products" class="border p-2">
+      <img [src]="p.imageUrl" class="h-32 w-full object-cover"/>
+      <h3>{{p.name}}</h3>
+      <p>{{p.price | currency}}</p>
+      <button (click)="editProduct(p)">Edit</button>
+      <button (click)="deleteProduct(p.id)">Delete</button>
+    </div>
+  </div>
+</div>
+
 </div>

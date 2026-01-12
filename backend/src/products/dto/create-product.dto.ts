@@ -1,22 +1,21 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { Category } from '@prisma/client';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
   name: string;
 
-  @IsString()
-  description: string;
-
   @IsNumber()
   price: number;
 
-  @IsString()
-  category: string;
-
   @IsNumber()
-  quantity: number;
+  @Min(0)
+  stock: number;
 
-  @IsOptional()
   @IsString()
-  imageUrl?: string;
+  @IsOptional()
+  description?: string;
+
+  @IsEnum(Category)
+  category: Category;
 }

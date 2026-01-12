@@ -1,0 +1,4 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
+  <input formControlName="address" placeholder="Shipping Address" class="border p-2 w-full"/>
+  <button type="submit" class="bg-green-500 text-white p-2 mt-2 rounded">Place Order</button>
+</form>
