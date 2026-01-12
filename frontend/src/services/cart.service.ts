@@ -2,30 +2,36 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+export interface CartItem {
+  productId: number;
+  quantity: number;
+  product: any;
+}
+
+export interface Cart {
+  id: number;
+  items: CartItem[];
+}
+
+@Injectable({ providedIn: 'root' })
 export class CartService {
-  private apiUrl = 'http://localhost:3000/cart';
+  private baseUrl = 'http://localhost:3000/cart';
 
   constructor(private http: HttpClient) {}
 
-  getCart(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getCart(): Observable<Cart> {
+    return this.http.get<Cart>(this.baseUrl);
   }
 
-  addToCart(productId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, { productId });
+  addToCart(productId: number, quantity = 1): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add`, { productId, quantity });
   }
 
-  updateQuantity(productId: number, quantity: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, {
-      productId,
-      quantity,
-    });
+  removeFromCart(cartItemId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/remove/${cartItemId}`);
   }
 
-  removeFromCart(productId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/remove/${productId}`);
+  updateQuantity(cartItemId: number, quantity: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update/${cartItemId}`, { quantity });
   }
 }

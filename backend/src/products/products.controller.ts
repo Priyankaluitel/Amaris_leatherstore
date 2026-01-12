@@ -1,12 +1,12 @@
+
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto} from './dto/update-product.dto';
 import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { JwtAuthGuard} from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Category } from '@prisma/client';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto} from './dto/update-product.dto';
-
 
 @Controller('products')
 export class ProductsController {
@@ -14,7 +14,6 @@ export class ProductsController {
 
   @Get()
   getAll(@Query('category') category?: string) {
-    // Convert query string to Prisma enum if valid
     const catEnum = category ? (Category[category.toUpperCase() as keyof typeof Category] as Category) : undefined;
     return this.products.findAll(catEnum);
   }

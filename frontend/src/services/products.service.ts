@@ -2,48 +2,33 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export type Category = 'ELECTRONICS' | 'CLOTHING' | 'SPORTS' | 'BOOKS' | 'OTHER';
+
 export interface Product {
   id?: number;
   name: string;
   price: number;
-  category?: string;
+  stock: number;
+  category: Category;
   imageUrl?: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ProductService {
-  private api = 'http://localhost:3000/products'; // backend endpoint
+  private baseUrl = 'http://localhost:3000/products';
 
   constructor(private http: HttpClient) {}
 
-  /** GET all products, optionally filter by category */
   getProducts(category?: string): Observable<Product[]> {
-    let url = this.api;
-    if (category) {
-      url += `?category=${category}`;
-    }
-    return this.http.get<Product[]>(url);
+    return this.http.get<Product[]>(this.baseUrl, { params: category ? { category } : {} });
   }
 
-  /** GET single product by ID */
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.api}/${id}`);
+  createProduct(product: Partial<Product>): Observable<Product> {
+    return this.http.post<Product>(this.baseUrl, product);
   }
 
-  /** CREATE new product (Admin only) */
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.api, product);
-  }
-
-  /** UPDATE product by ID (Admin only) */
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.api}/${id}`, product);
-  }
-
-  /** DELETE product by ID (Admin only) */
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+  deleteProduct(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${productId}`);
   }
 }
+

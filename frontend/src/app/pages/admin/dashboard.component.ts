@@ -1,48 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ProductService, Product } from '../../../services/products.service';
 
 @Component({
-  standalone: true,
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  styleUrls: ['./dashboard.component.css'], // Make sure this file exists, even empty
 })
 export class AdminDashboardComponent implements OnInit {
-  products: any[] = [];
+  products: Product[] = [];
+  newProduct: Partial<Product> = {}; // for form binding
+  selectedFile?: File; // <-- add this property
 
-  newProduct = {
-    name: '',
-    price: 0,
-    category: '',
-  };
-
-  constructor(private http: HttpClient) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.loadProducts();
   }
 
   loadProducts() {
-    this.http
-      .get<any[]>('http://localhost:3000/products')
-      .subscribe((res) => (this.products = res));
+    this.productService.getProducts().subscribe((res) => {
+      this.products = res;
+    });
   }
 
   addProduct() {
-    this.http
-      .post('http://localhost:3000/products', this.newProduct)
-      .subscribe(() => {
-        this.newProduct = { name: '', price: 0, category: '' };
-        this.loadProducts();
-      });
+    if (!this.newProduct.name || !this.newProduct.price) return;
+    this.productService.createProduct(this.newProduct).subscribe(() => {
+      this.newProduct = {};
+      this.loadProducts();
+    });
   }
 
-  deleteProduct(id: number) {
-    this.http
-      .delete(`http://localhost:3000/products/${id}`)
-      .subscribe(() => this.loadProducts());
+deleteProduct(productId?: number) {
+  if (!productId) return; // safety check
+  this.productService.deleteProduct(productId).subscribe(() => {
+    this.loadProducts();
+  });
+}
+
+
+  // ✅ THIS IS THE FIX
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
+      console.log('Selected file:', this.selectedFile);
+    }
   }
 }

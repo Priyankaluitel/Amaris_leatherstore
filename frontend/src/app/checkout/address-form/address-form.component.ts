@@ -1,25 +1,28 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { CheckoutService } from '../checkout.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-address-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './address-form.component.html',
 })
 export class AddressFormComponent {
   checkoutForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private checkoutService: CheckoutService) {
-    this.checkoutForm = this.fb.group({ address: [''] });
+  constructor(private fb: FormBuilder) {
+    this.checkoutForm = this.fb.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      postalCode: ['', Validators.required],
+    });
   }
 
   checkout() {
     if (this.checkoutForm.valid) {
-      const address = this.checkoutForm.value.address;
-      this.checkoutService.checkout(address).subscribe({
-        next: () => alert('Order placed successfully!'),
-        error: () => alert('Checkout failed.'),
-      });
+      console.log('Checkout data:', this.checkoutForm.value);
     }
   }
 }

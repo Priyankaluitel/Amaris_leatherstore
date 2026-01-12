@@ -7,7 +7,7 @@
     "types": []
   },
   "files": ["src/main.ts"],
-  "include": ["src/**/*.ts", "../backend/src/auth/auth.interceptor.ts"],
+  "include": ["src/**/*.ts", "../backend/src/auth/auth.interceptor.ts", "../backend/src/checkout.controller.ts"],
   "exclude": [
     "../backend",
     "../backend/**/*"

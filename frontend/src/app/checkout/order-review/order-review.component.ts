@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { CheckoutService, CartItem } from '../checkout.service';
+import { Component, Input } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Product } from '../../../services/products.service';
 
 @Component({
   selector: 'app-order-review',
+  standalone: true,
+  imports: [CommonModule, CurrencyPipe],
   templateUrl: './order-review.component.html',
 })
-export class OrderReviewComponent implements OnInit {
-  cartItems: CartItem[] = [];
+export class OrderReviewComponent {
+  @Input() cartItems: { product: Product; quantity: number }[] = [];
   total = 0;
 
-  constructor(private checkoutService: CheckoutService) {}
-
-  ngOnInit() {
-    this.checkoutService.getCartItems().subscribe(items => {
-      this.cartItems = items;
-      this.total = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-    });
+  ngOnChanges() {
+    this.total = this.cartItems.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
   }
 
   checkout() {
-    // Navigate to address form or directly call checkout API
+    console.log('Checkout clicked', this.cartItems);
+    // You can later call API to create order
   }
 }

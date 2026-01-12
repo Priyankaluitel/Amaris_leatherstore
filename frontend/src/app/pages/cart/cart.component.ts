@@ -21,48 +21,33 @@
 // }
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../../../services/cart.service';
+import { CartService, Cart } from '../../../services/cart.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartItems: any[] = [];
-  loading = true;
+  cart?: Cart;
 
   constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadCart();
   }
 
   loadCart() {
-    this.cartService.getCart().subscribe({
-      next: (data) => {
-        this.cartItems = data.items || data;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      },
-    });
+    this.cartService.getCart().subscribe((res) => (this.cart = res));
   }
 
-  remove(item: any) {
-    this.cartService.removeFromCart(item.productId).subscribe({
-      next: () => this.loadCart(),
-    });
+  removeItem(itemId: number) {
+    this.cartService.removeFromCart(itemId).subscribe(() => this.loadCart());
   }
 
-  get totalAmount(): number {
-    return this.cartItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
+  updateQuantity(itemId: number, qty: number) {
+    this.cartService.updateQuantity(itemId, qty).subscribe(() => this.loadCart());
   }
 }
-
