@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  role     Role     @default(CUSTOMER)
-  cart     Cart?
-  resetToken String? 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  role       Role     @default(CUSTOMER)
+  cart       Cart?
+  resetToken String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orders     Order[]
 }
 
 model Cart {
@@ -34,21 +35,24 @@ model Cart {
 model CartItem {
   id        Int      @id @default(autoincrement())
   cartId    Int
-  cart      Cart     @relation(fields: [cartId], references: [id])
   productId Int
-  product   Product  @relation(fields: [productId], references: [id])
-  quantity  Int      @default(1)
+  quantity  Int
+
+  cart    Cart    @relation(fields: [cartId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
 
+
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   price       Float
-  stock       Int      @default(0)
+  stock       Int         @default(0)
   description String?
-  category    Category @default(OTHER)
+  category    Category    @default(OTHER)
   cartItems   CartItem[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+  orderItems  OrderItem[]
 }
 
 enum Role {
@@ -63,22 +67,35 @@ enum Category {
   BOOKS
   OTHER
 }
+
 model Order {
-  id        Int       @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
-  items     OrderItem[]
+  user      User        @relation(fields: [userId], references: [id])
+  status    OrderStatus @default(PENDING)
   total     Float
-  createdAt DateTime  @default(now())
+  address   String
+  createdAt DateTime    @default(now())
+
+  items OrderItem[]
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
+  id Int @id @default(autoincrement())
+
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id])
+
   productId Int
   product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
-  price     Float
+
+  quantity Int
+  price    Float
 }
 
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+}

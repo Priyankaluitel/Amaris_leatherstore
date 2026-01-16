@@ -16,14 +16,21 @@ export class CartController {
   }
 
   @Post('add')
-  addItem(@Req() req, @Body() body: { productId: number; quantity?: number }) {
-    return this.cartService.addItem(req.user.userId, body.productId, body.quantity);
-  }
+addItem(
+  @Body('userId') userId: number,
+  @Body('productId') productId: number,
+  @Body('quantity') quantity: number,
+) {
+  return this.cartService.addItem(userId, productId, quantity);
+}
 
-  @Delete('remove/:id')
-  removeItem(@Req() req, @Param('id') id: string) {
-    return this.cartService.removeItem(req.user.userId, +id);
-  }
+@Delete('remove')
+removeItem(
+  @Body('userId') userId: number,
+  @Body('productId') productId: number,
+) {
+  return this.cartService.removeItem(userId, productId);
+}
 
   @Delete('clear')
   clearCart(@Req() req) {

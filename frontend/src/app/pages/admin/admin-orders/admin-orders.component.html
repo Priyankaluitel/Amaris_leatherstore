@@ -1,0 +1,31 @@
+<div class="admin-orders-container">
+  <h2>All Orders</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>User</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.user?.name }}</td>
+        <td>{{ order.total | currency }}</td>
+        <td>
+          <select [(ngModel)]="order.status" (change)="updateStatus(order)">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+        </td>
+        <td>{{ order.createdAt | date: 'medium' }}</td>
+        <td>
+          <button (click)="viewInvoice(order)">Invoice</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,25 @@
+<div class="orders-container">
+  <h2>Your Orders</h2>
+  <table class="orders-table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.total | currency }}</td>
+        <td>{{ order.status }}</td>
+        <td>{{ order.createdAt | date: 'medium' }}</td>
+        <td>
+          <button (click)="viewInvoice(order)">Invoice</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
