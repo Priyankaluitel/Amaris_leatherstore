@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../../services/order.service';
+import { CommonModule} from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-order-history',
+   imports: [
+    CommonModule,           
+    FormsModule      
+  ],
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.css'],
 })

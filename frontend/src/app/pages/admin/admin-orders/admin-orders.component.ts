@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../../../services/order.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-admin-orders',
+  standalone: true,
+  imports: [
+    CommonModule,           
+    FormsModule      
+  ],
   templateUrl: './admin-orders.component.html',
   styleUrls: ['./admin-orders.component.css'],
 })

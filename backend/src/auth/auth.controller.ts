@@ -35,9 +35,18 @@
 //   return this.authService.generateJwt(user); // return { access_token: '...' }
 // }
 // }
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Role } from '@prisma/client';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -60,7 +69,18 @@ export class AuthController {
     const user = await this.authService.validateUser(body.email, body.password);
     if (!user) throw new UnauthorizedException('Invalid email or password');
 
-    return this.authService.generateJwt(user);
+    return this.authService.login(body.email, body.password);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Req() req: Request) {
+    const user = req.user as { userId: number } | undefined;
+    if (!user?.userId) {
+      throw new UnauthorizedException('User not authenticated');
+    }
+
+    return this.authService.logout(user.userId);
   }
 }
 

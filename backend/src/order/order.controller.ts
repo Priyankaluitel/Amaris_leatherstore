@@ -3,19 +3,30 @@ import { OrderService } from './order.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Request } from 'express';
+
+type AuthRequest = Request & { user: { userId: number } };
 
 @Controller('orders')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OrderController {
   constructor(private orderService: OrderService) {}
-
-  @Post('checkout')
-  async checkout(@Req() req, @Body('address') address: string) {
-    return this.orderService.checkout(req.user.userId, address);
-  }
-
+@Post('checkout')
+async checkout(
+  @Req() req: AuthRequest,
+  @Body('address') address: string,
+  @Body('paymentMethod') paymentMethod: string,
+  @Body('paymentStatus') paymentStatus: string
+) {
+  return this.orderService.checkout(
+    req.user.userId,
+    address,
+    paymentMethod,
+    paymentStatus
+  );
+}
   @Get('my')
-  async getMyOrders(@Req() req) {
+  async getMyOrders(@Req() req: AuthRequest) {
     return this.orderService.getMyOrders(req.user.userId);
   }
 

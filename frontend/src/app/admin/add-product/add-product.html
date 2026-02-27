@@ -1,8 +1,81 @@
-<h2>Add Product</h2>
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 mt-8">
+  <h2 class="text-2xl font-semibold text-brownDark mb-4">Add New Product</h2>
 
-<input placeholder="Name" [(ngModel)]="name" />
-<input type="number" placeholder="Price" [(ngModel)]="price" />
-<textarea placeholder="Description" [(ngModel)]="description"></textarea>
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+      <input
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        placeholder="Product name"
+        [(ngModel)]="name"
+        name="name"
+      />
+    </div>
 
-<button (click)="addProduct()">Add</button>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+      <input
+        type="number"
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        placeholder="Price"
+        [(ngModel)]="price"
+        name="price"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+      <input
+        type="number"
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        placeholder="Stock quantity"
+        [(ngModel)]="stock"
+        name="stock"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+      <select
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        [(ngModel)]="category"
+        name="category"
+      >
+        <option value="ELECTRONICS">Electronics</option>
+        <option value="CLOTHING">Clothing</option>
+        <option value="SPORTS">Sports</option>
+        <option value="BOOKS">Books</option>
+        <option value="OTHER">Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+      <input
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        placeholder="https://..."
+        [(ngModel)]="imageUrl"
+        name="imageUrl"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+      <textarea
+        class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brownLight"
+        placeholder="Short description"
+        [(ngModel)]="description"
+        name="description"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <button
+      (click)="addProduct()"
+      class="mt-4 bg-[#3b2f2f] text-white px-6 py-2 rounded-lg hover:bg-[#2a2222] transition"
+    >
+      Add Product
+    </button>
+  </div>
+</div>
 

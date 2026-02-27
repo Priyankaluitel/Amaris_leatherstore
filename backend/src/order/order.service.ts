@@ -5,45 +5,57 @@ import { PrismaService } from '../prisma/prisma.service';
 export class OrderService {
   constructor(private prisma: PrismaService) {}
 
-  async checkout(userId: number, address: string) {
+  /* ================= Checkout ================= */
+  async checkout(
+    userId: number,
+    address: string,
+    paymentMethod: string,
+    paymentStatus: string, 
+  ) {
+    // Get user's cart with items and product details
     const cart = await this.prisma.cart.findFirst({
-  where: { userId },
-  include: {
-    items: {
+      where: { userId },
       include: {
-        product: true, // only if relation exists
-      },
-    },
-  },
-});
-
-    if (!cart || cart.items.length === 0)
-      throw new NotFoundException('Cart is empty');
-
-    const total = cart.items.reduce((sum, item) => sum + item.quantity * item.product.price, 0);
-
-    const order = await this.prisma.order.create({
-      data: {
-        userId,
-        address,
-        total,
         items: {
-          create: cart.items.map(item => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.product.price,
-          })),
+          include: { product: true },
         },
       },
-      include: { items: { include: { product: true } } },
     });
 
+    if (!cart || cart.items.length === 0) {
+      throw new NotFoundException('Cart is empty');
+    }
+
+    // Calculate total
+    const total = cart.items.reduce(
+      (sum, item) => sum + item.quantity * item.product.price,
+      0,
+    );
+const order = await this.prisma.order.create({
+  data: {
+    user: { connect: { id: userId } },
+    address,
+    total,
+    items: {
+      create: cart.items.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.product.price,
+      })),
+    },
+  },
+  include: { items: { include: { product: true } } },
+});
+
     // Clear cart
-    await this.prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
+    await this.prisma.cartItem.deleteMany({
+      where: { cartId: cart.id },
+    });
 
     return order;
   }
 
+  /* ================= Get Orders of Current User ================= */
   async getMyOrders(userId: number) {
     return this.prisma.order.findMany({
       where: { userId },
@@ -52,6 +64,7 @@ export class OrderService {
     });
   }
 
+  /* ================= Get All Orders (Admin) ================= */
   async getAllOrders() {
     return this.prisma.order.findMany({
       include: { items: { include: { product: true } } },
@@ -59,13 +72,18 @@ export class OrderService {
     });
   }
 
-  async updateStatus(orderId: number, status: 'PENDING' | 'SHIPPED' | 'DELIVERED') {
+  /* ================= Update Order Status ================= */
+  async updateStatus(
+    orderId: number,
+    status: 'PENDING' | 'SHIPPED' | 'DELIVERED',
+  ) {
     return this.prisma.order.update({
       where: { id: orderId },
       data: { status },
     });
   }
 
+  /* ================= Get Single Order / Invoice ================= */
   async getInvoice(orderId: number) {
     const order = await this.prisma.order.findUnique({
       where: { id: orderId },

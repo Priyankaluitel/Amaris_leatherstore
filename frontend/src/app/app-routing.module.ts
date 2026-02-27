@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { CartComponent } from '../app/cart/cart.component';
 import { DashboardComponent} from '../app/admin/dashboard/dashboard';
 import { AddProductComponent} from '../app/admin/add-product/add-product';
@@ -12,6 +13,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptors';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {path: 'cart', component: CartComponent},
   {path: 'admin',
     canActivate: [AuthGuard],

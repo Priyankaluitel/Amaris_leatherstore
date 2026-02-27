@@ -16,10 +16,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Serve static files from uploads folder
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+  app.useStaticAssets(join(process.cwd(), 'uploads'), {
     prefix: '/uploads',
-     });
-      // ✅ Enable CORS for Angular dev server
+  });
+
+  // ✅ Enable CORS for Angular dev server
   app.enableCors({
     origin: 'http://localhost:4200', // Angular dev URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

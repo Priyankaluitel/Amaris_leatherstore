@@ -95,15 +95,11 @@ export class LoginComponent implements OnInit {
 
     // Pass captchaToken
     this.auth.login(email, password, this.captchaToken).subscribe({
-     next: (res) => {
-  const role = this.auth.getUserRole();
-
-  if (role === 'ADMIN') {
-    this.router.navigateByUrl('/admin/dashboard');
-  } else {
-    this.router.navigateByUrl('/customer/dashboard');
-  }
-},
+      next: () => {
+        // After successful login, always land on the home page
+        this.error = '';
+        this.router.navigateByUrl('/home');
+      },
       error: (err) => {
         console.error(err);
         this.error = err?.error?.message || 'Login failed. Please check your credentials.';

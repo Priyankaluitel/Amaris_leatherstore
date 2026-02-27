@@ -3,6 +3,9 @@ import { CartService } from './cart.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { Request } from 'express';
+
+type AuthRequest = Request & { user: { userId: number } };
 
 @Controller('cart')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -11,7 +14,7 @@ export class CartController {
   constructor(private cartService: CartService) {}
 
   @Get()
-  getCart(@Req() req) {
+  getCart(@Req() req: AuthRequest) {
     return this.cartService.getCart(req.user.userId);
   }
 
@@ -33,7 +36,7 @@ removeItem(
 }
 
   @Delete('clear')
-  clearCart(@Req() req) {
+  clearCart(@Req() req: AuthRequest) {
     return this.cartService.clearCart(req.user.userId);
   }
 }

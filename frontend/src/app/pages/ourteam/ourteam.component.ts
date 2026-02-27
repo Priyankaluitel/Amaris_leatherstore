@@ -10,8 +10,8 @@ import { CommonModule } from '@angular/common';
 })
 export class OurteamComponent {
   teamMembers = [
-    { name: 'Priyanka Luitel', role: 'CEO' },
-    { name: 'Bobby Singh', role: 'Developer' },
-    { name: 'Kazol', role: 'Designer' }
+    { name: 'Priyanka Luitel', role: 'Founder and Designer' },
+    { name: ' Aarav Shrestha', role: 'Project Manager' },
+    { name: 'Sita Gurung', role: 'Marketing Lead' }
   ];
 }

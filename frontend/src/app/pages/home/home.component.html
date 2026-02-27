@@ -34,22 +34,60 @@
     &copy; 2025 Amaris Leather Store. All rights reserved.
   </footer>
 </div> -->
-<section class="hero">
-  <h1>Catalog & Online Store</h1>
-  <p>Where craftsmanship meets elegance</p>
+<section class="bg-[#f8f5f1] py-16">
+  <div class="max-w-6xl mx-auto px-4 grid gap-10 md:grid-cols-2 items-center">
+    <div>
+      <h1 class="text-4xl md:text-5xl font-serif font-semibold text-[#3b2f2f] mb-4">
+        Timeless leather pieces, crafted to last.
+      </h1>
+      <p class="text-gray-700 mb-4">
+        At Amaris Leather, we handcraft premium bags, wallets, belts and everyday essentials
+        using ethically sourced leather and traditional techniques.
+      </p>
+      <p class="text-gray-700 mb-6">
+        Our mission is to bring together modern design and classic durability—so every piece
+        you buy feels special from day one and ages beautifully with you.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          routerLink="/products"
+          class="inline-flex items-center px-6 py-2 rounded-full bg-[#3b2f2f] text-[#f8f5f1] hover:bg-[#2a2222] transition"
+        >
+          Browse our products
+        </a>
+        <a
+          routerLink="/about"
+          class="inline-flex items-center px-6 py-2 rounded-full border border-[#3b2f2f] text-[#3b2f2f] hover:bg-[#3b2f2f] hover:text-[#f8f5f1] transition"
+        >
+          Learn more about us
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="rounded-2xl overflow-hidden shadow-lg">
+        <img
+          src="assets/images/leatherbag3.jpg"
+          alt="Leather bag"
+          class="w-full h-56 object-cover"
+        />
+      </div>
+      <div class="space-y-4">
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src="assets/images/leatherbag4.jpg"
+            alt="Leather wallet"
+            class="w-full h-24 object-cover"
+          />
+        </div>
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src="assets/images/leatherbag2.jpg"
+            alt="Leather belt"
+            class="w-full h-24 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-
-<section class="featured">
-  <h2>Featured Products</h2>
-
-  <div class="grid grid-cols-3 gap-6">
-  <app-product-card
-    *ngFor="let product of products"
-    [product]="product">
-  </app-product-card>
-</div>
-
-
-</section>
-
-

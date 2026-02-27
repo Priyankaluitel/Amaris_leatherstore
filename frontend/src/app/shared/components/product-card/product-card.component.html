@@ -1,8 +1,6 @@
 <div class="card">
-  <img src="https://via.placeholder.com/200" />
-  <h3>Leather Bag</h3>
+  <img [src]="imageSrc" [alt]="product.name" />
+  <h3>{{ product.name }}</h3>
   <p>Premium handcrafted leather</p>
-  <strong>1200</strong>
+  <strong>{{ product.price }}</strong>
 </div>
-
-

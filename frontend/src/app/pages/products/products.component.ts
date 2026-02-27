@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService, Product, Category } from '../../../services/products.service';
 import { CartService } from '../../../services/cart.service';
+import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ProductCardComponent],
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {

@@ -28,9 +28,11 @@ export class OrderService {
   getInvoice(orderId: number): Observable<any> {
     return this.http.get(`${this.API}/invoice/${orderId}`);
   }
-
-  // Checkout (mock payment)
-  checkout(address: string): Observable<any> {
-    return this.http.post(`${this.API}/checkout`, { address });
-  }
+checkout(address: string): Observable<any> {
+  return this.http.post(`${this.API}/checkout`, {
+    address,
+    paymentMethod: "Demo Gateway",
+    paymentStatus: "Paid"
+  });
+}
 }

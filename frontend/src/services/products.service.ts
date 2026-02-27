@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+
 
 export type Category = 'ELECTRONICS' | 'CLOTHING' | 'SPORTS' | 'BOOKS' | 'OTHER';
 
@@ -19,9 +21,15 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(category?: string): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl, { params: category ? { category } : {} });
+ getProducts(category?: string): Observable<Product[]> {
+  let params = new HttpParams();
+  if (category) {
+    params = params.set('category', category);
   }
+  
+
+  return this.http.get<Product[]>(this.baseUrl, { params });
+}
 
   createProduct(product: Partial<Product>): Observable<Product> {
     return this.http.post<Product>(this.baseUrl, product);

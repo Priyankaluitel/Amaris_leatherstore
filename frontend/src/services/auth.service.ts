@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +13,20 @@ export class AuthService {
 
   // Login with email, password, captchaToken
 login(email: string, password: string, captchaToken: string) {
-  return this.http.post<any>('http://localhost:3000/auth/login', {
-    email,
-    password,
-    captchaToken,
-  }).pipe(
-    tap(res => {
-      localStorage.setItem('token', res.access_token);
+  return this.http
+    .post<any>(`${this.API}/login`, {
+      email,
+      password,
+      captchaToken,
     })
-  );
+    .pipe(
+      tap((res) => {
+        // Backend returns { access_token, refreshToken, role }
+        if (res?.access_token) {
+          localStorage.setItem('token', res.access_token);
+        }
+      })
+    );
 }
 
 
@@ -58,8 +64,19 @@ login(email: string, password: string, captchaToken: string) {
   }
 
   // Logout user
-  logout() {
-    localStorage.removeItem('token');
+  logout(): Observable<unknown> {
+    const hasToken = !!this.getToken();
+
+    if (!hasToken) {
+      localStorage.removeItem('token');
+      return of(null);
+    }
+
+    return this.http.post(`${this.API}/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('token');
+      })
+    );
   }
 }
 

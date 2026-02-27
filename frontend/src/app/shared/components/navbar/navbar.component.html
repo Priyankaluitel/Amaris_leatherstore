@@ -17,7 +17,7 @@
     <a routerLink="/products"
        routerLinkActive="border-b-2 border-[#c2a060]"
        class="hover:text-[#c2a060] transition">
-      Products
+      Our Products
     </a>
 
     <a routerLink="/team"
@@ -44,11 +44,20 @@
       FAQ
     </a>
 
-    <a routerLink="/login"
+    <!-- Auth links -->
+    <a *ngIf="!isLoggedIn"
+       routerLink="/login"
        routerLinkActive="border-b-2 border-[#c2a060]"
        class="hover:text-[#c2a060] transition">
       Login
     </a>
+
+    <button *ngIf="isLoggedIn"
+            type="button"
+            (click)="logout()"
+            class="hover:text-[#c2a060] transition">
+      Logout
+    </button>
 
     <!-- Cart Icon -->
     <div class="ml-4 relative">
