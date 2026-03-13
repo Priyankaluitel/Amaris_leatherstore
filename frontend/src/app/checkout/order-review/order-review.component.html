@@ -1,9 +1,8 @@
 <div *ngFor="let item of cartItems" class="border-b p-2">
-  {{item.product.name}} x {{item.quantity}} - {{item.product.price | currency}}
+  {{item.product.name}} x {{item.quantity}} - Rs.{{item.product.price | number:'1.2-2'}}
 </div>
-<p class="font-bold mt-2">Total: {{total | currency}}</p>
+<p class="font-bold mt-2">Total: Rs.{{total | number:'1.2-2'}}</p>
 <button class="bg-blue-500 text-white p-2 mt-2 rounded" (click)="checkout()">
   Confirm Order
 </button>
 <button (click)="checkout()">Checkout</button>
-

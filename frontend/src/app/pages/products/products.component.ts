@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ProductService, Product, Category } from '../../../services/products.service';
 import { CartService } from '../../../services/cart.service';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { AuthService } from '../../../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -15,18 +17,29 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   loading = true;
   error = '';
-  categories: Category[] = ['ELECTRONICS','CLOTHING','SPORTS','BOOKS','OTHER'];
+  categories: Category[] = ['BAGS', 'WALLETS', 'BELTS', 'ACCESSORIES', 'OTHER'];
   selectedCategory?: string;
+  searchQuery = '';
 
-  constructor(private productService: ProductService, private cartService: CartService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.loadProducts();
+    this.route.queryParams.subscribe(params => {
+      this.selectedCategory = params['category'];
+      this.searchQuery = params['search'] || '';
+      this.loadProducts();
+    });
   }
 
   loadProducts() {
     this.loading = true;
-    this.productService.getProducts(this.selectedCategory).subscribe({
+    this.productService.getProducts(this.selectedCategory, this.searchQuery).subscribe({
       next: (data) => {
         this.products = data;
         this.loading = false;
@@ -38,17 +51,27 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onCategoryChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.selectedCategory = select.value;
-    this.loadProducts();
+  onRadioChange(category: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { category: category || null }, // Remove category if empty
+      queryParamsHandling: 'merge'
+    });
   }
 
   addToCart(product: Product) {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     if (!product.id) return;
     this.cartService.addToCart(product.id).subscribe({
-      next: () => alert('Added to cart'),
-      error: () => alert('Failed to add to cart'),
+      next: () => alert(`${product.name} added to cart!`),
+      error: (err) => {
+        console.error('Failed to add to cart', err);
+        alert('Could not add item to cart. Please try again.');
+      }
     });
   }
 }

@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Product } from '../../../services/products.service';
 
 @Component({
   selector: 'app-order-review',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule],
   templateUrl: './order-review.component.html',
 })
 export class OrderReviewComponent {

@@ -1,6 +1,32 @@
-<h2>Admin Dashboard</h2>
+<div class="max-w-4xl mx-auto p-8 mt-8 bg-white rounded-2xl shadow-xl">
+  <div class="flex items-center space-x-4 mb-8">
+    <div class="p-3 bg-brownLight bg-opacity-10 rounded-xl">
+      <svg class="w-8 h-8 text-brownDark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+    </div>
+    <h1 class="text-3xl font-bold text-brownDark">Admin Dashboard</h1>
+  </div>
 
-<nav>
-  <a routerLink="/admin/add-product">Add Product</a>
-</nav>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <a routerLink="/admin/products"
+      class="group bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-brownLight hover:bg-white transition-all shadow-sm hover:shadow-md cursor-pointer">
+      <div class="text-brownDark font-bold text-xl mb-2 group-hover:text-brownLight transition-colors">Manage Products
+      </div>
+      <p class="text-gray-600 text-sm">Update inventory, prices, and stock levels.</p>
+    </a>
 
+    <a routerLink="/admin/add-product"
+      class="group bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-brownLight hover:bg-white transition-all shadow-sm hover:shadow-md cursor-pointer">
+      <div class="text-brownDark font-bold text-xl mb-2 group-hover:text-brownLight transition-colors">Add Product</div>
+      <p class="text-gray-600 text-sm">Create new leather items for your store.</p>
+    </a>
+
+    <a routerLink="/admin/orders"
+      class="group bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-brownLight hover:bg-white transition-all shadow-sm hover:shadow-md cursor-pointer">
+      <div class="text-brownDark font-bold text-xl mb-2 group-hover:text-brownLight transition-colors">Orders</div>
+      <p class="text-gray-600 text-sm">View and manage customer purchases.</p>
+    </a>
+  </div>
+</div>

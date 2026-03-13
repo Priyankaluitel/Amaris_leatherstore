@@ -1,0 +1,40 @@
+<div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6 mt-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-brownDark">Manage Products</h2>
+        <a routerLink="/admin/add-product"
+            class="bg-[#3b2f2f] text-white px-4 py-2 rounded-lg hover:bg-[#2a2222] transition">
+            Add New Product
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b text-gray-700">
+                    <th class="py-3 px-4">Name</th>
+                    <th class="py-3 px-4">Price</th>
+                    <th class="py-3 px-4">Stock</th>
+                    <th class="py-3 px-4">Category</th>
+                    <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products" class="border-b hover:bg-gray-50 transition">
+                    <td class="py-4 px-4">{{ product.name }}</td>
+                    <td class="py-4 px-4">${{ product.price }}</td>
+                    <td class="py-4 px-4">{{ product.stock }}</td>
+                    <td class="py-4 px-4 text-sm">{{ product.category }}</td>
+                    <td class="py-4 px-4 text-right space-x-2">
+                        <a [routerLink]="['/admin/edit-product', product.id]"
+                            class="text-brownLight hover:underline font-medium">
+                            Edit
+                        </a>
+                        <button (click)="deleteProduct(product.id)" class="text-red-600 hover:underline font-medium">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

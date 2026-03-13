@@ -57,7 +57,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CartService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async addItem(userId: number, productId: number, quantity = 1) {
     const cart = await this.prisma.cart.upsert({
@@ -84,15 +84,9 @@ export class CartService {
     });
   }
 
-  async removeItem(userId: number, productId: number) {
-    const cart = await this.prisma.cart.findUnique({
-      where: { userId },
-    });
-
-    if (!cart) return null;
-
-    return this.prisma.cartItem.deleteMany({
-      where: { cartId: cart.id, productId },
+  async removeItem(userId: number, itemId: number) {
+    return this.prisma.cartItem.delete({
+      where: { id: itemId },
     });
   }
 

@@ -47,6 +47,8 @@ model Product {
   price       Float
   stock       Int         @default(0)
   description String?
+  introduction String?
+  imageUrl    String?
   category    Category
   cartItems   CartItem[]
   orderItems  OrderItem[]
@@ -85,15 +87,16 @@ enum Role {
 }
 
 enum Category {
-  ELECTRONICS
-  CLOTHING
-  SPORTS
-  BOOKS
+  BAGS
+  WALLETS
+  BELTS
+  ACCESSORIES
   OTHER
 }
 
 enum OrderStatus {
   PENDING
+  PACKING
   CONFIRMED
   SHIPPED
   DELIVERED

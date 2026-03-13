@@ -16,6 +16,10 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
 
+  @IsString()
+  @IsOptional()
+  introduction?: string;
+
   @IsEnum(Category)
   category!: Category;
 }

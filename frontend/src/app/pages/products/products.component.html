@@ -1,40 +1,105 @@
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-2xl font-semibold text-[#3b2f2f]">Our Products</h2>
-    <select
-      (change)="onCategoryChange($event)"
-      class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c2a060]"
-    >
-      <option value="">All Categories</option>
-      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-    </select>
+<div class="min-h-screen bg-gray-50 font-sans-clean text-amaris-brown">
+
+  <!-- Page Header -->
+  <div class="bg-amaris-brown text-white py-16 px-4 text-center">
+    <h1 class="text-4xl md:text-5xl font-serif-elegant font-bold uppercase tracking-[0.2em] mb-4">Our Collection</h1>
+    <div class="h-[2px] w-20 bg-amaris-gold mx-auto"></div>
   </div>
 
-  <div *ngIf="loading" class="text-center text-gray-500 mt-4">
-    Loading products...
-  </div>
+  <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col md:flex-row gap-12">
 
-  <div
-    *ngIf="!loading && products.length"
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4"
-  >
-    <div
-      *ngFor="let product of products"
-      class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col"
-    >
-      <app-product-card [product]="product"></app-product-card>
-      <button
-        (click)="addToCart(product)"
-        class="mt-4 bg-[#3b2f2f] text-white px-4 py-2 rounded-lg hover:bg-[#2a2222] transition"
-      >
-        Add to Cart
-      </button>
-    </div>
-  </div>
+    <!-- Sidebar / Filter Panel -->
+    <aside class="w-full md:w-64 flex-shrink-0">
+      <div class="sticky top-28 space-y-10">
+        <div>
+          <h3
+            class="text-[10px] font-bold uppercase tracking-[0.4em] text-amaris-gold mb-8 border-b border-gray-200 pb-4">
+            Filter</h3>
 
-  <div *ngIf="!loading && products.length === 0" class="text-center text-gray-500 mt-4">
-    No products found.
-  </div>
+          <div class="space-y-6">
+            <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-amaris-brown">Category</label>
+            <div class="flex flex-col space-y-4">
+              <label class="flex items-center group cursor-pointer">
+                <input type="radio" name="category" value="" [checked]="!selectedCategory" (change)="onRadioChange('')"
+                  class="sr-only peer">
+                <div
+                  class="w-4 h-4 rounded-full border border-gray-300 mr-3 flex items-center justify-center peer-checked:border-amaris-gold transition-all duration-300">
+                  <div
+                    class="w-2 h-2 rounded-full bg-amaris-gold transform scale-0 peer-checked:scale-100 transition-transform duration-300">
+                  </div>
+                </div>
+                <span
+                  class="text-xs uppercase tracking-widest group-hover:text-amaris-gold transition-colors peer-checked:text-amaris-gold font-bold">All
+                  Categories</span>
+              </label>
 
-  <div *ngIf="error" class="text-red-500 mt-4">{{ error }}</div>
+              <label *ngFor="let cat of categories" class="flex items-center group cursor-pointer">
+                <input type="radio" name="category" [value]="cat" [checked]="selectedCategory === cat"
+                  (change)="onRadioChange(cat)" class="sr-only peer">
+                <div
+                  class="w-4 h-4 rounded-full border border-gray-300 mr-3 flex items-center justify-center peer-checked:border-amaris-gold transition-all duration-300">
+                  <div
+                    class="w-2 h-2 rounded-full bg-amaris-gold transform scale-0 peer-checked:scale-100 transition-transform duration-300">
+                  </div>
+                </div>
+                <span
+                  class="text-xs uppercase tracking-widest group-hover:text-amaris-gold transition-colors peer-checked:text-amaris-gold font-bold">{{
+                  cat.toLowerCase() }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Product Grid -->
+    <main class="flex-grow">
+
+      <!-- Top Bar -->
+      <div class="flex justify-between items-center mb-10 border-b border-gray-100 pb-6">
+        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-gray-400">
+          <span *ngIf="loading" class="animate-pulse">Loading collection...</span>
+          <span *ngIf="!loading">{{ products.length }} items curated</span>
+        </p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-32">
+        <div class="flex flex-col items-center">
+          <div class="w-10 h-10 border-2 border-amaris-gold border-t-transparent rounded-full animate-spin mb-6"></div>
+          <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-amaris-gold">Discovering Artisanal Pieces</p>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error"
+        class="bg-red-50 text-red-500 py-12 px-6 border border-red-100 text-center text-xs font-bold uppercase tracking-widest">
+        {{ error }}
+      </div>
+
+      <!-- Products Grid -->
+      <div *ngIf="!loading && products.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-8">
+        <div *ngFor="let product of products" class="group flex flex-col">
+          <app-product-card [product]="product"></app-product-card>
+
+          <!-- Quick Add Button (Artisanal Style) -->
+          <button (click)="addToCart(product)"
+            class="w-full mt-4 bg-amaris-brown text-white py-4 text-[10px] font-bold uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 hover:bg-amaris-gold shadow-lg transform translate-y-2 group-hover:translate-y-0">
+            Quick Add
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && products.length === 0" class="text-center py-32 border border-dashed border-gray-200">
+        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-6">No artisanal pieces found in this
+          category.</p>
+        <button (click)="onRadioChange('')"
+          class="text-[10px] font-bold uppercase tracking-[0.4em] text-amaris-gold hover:text-amaris-brown transition-colors border-b-2 border-amaris-gold pb-1">Show
+          All Collection</button>
+      </div>
+
+    </main>
+
+  </div>
 </div>

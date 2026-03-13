@@ -1,6 +1,52 @@
-<div class="card">
-  <img [src]="imageSrc" [alt]="product.name" />
-  <h3>{{ product.name }}</h3>
-  <p>Premium handcrafted leather</p>
-  <strong>{{ product.price }}</strong>
+<div
+  class="group relative bg-white border border-gray-100 hover:border-amaris-gold transition-all duration-500 font-sans-clean">
+  <!-- Image Container -->
+  <div class="relative aspect-[3/4] overflow-hidden bg-gray-50">
+    <img [src]="imageSrc" [alt]="product.name"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+
+    <!-- Badges -->
+    <div class="absolute top-4 left-4 flex flex-col gap-2">
+      <span *ngIf="product.stock === 0"
+        class="bg-amaris-brown/80 text-white text-[8px] font-bold px-3 py-1 uppercase tracking-widest">
+        Out of stock
+      </span>
+      <span *ngIf="product.stock > 0 && product.stock <= 5"
+        class="bg-amaris-gold text-white text-[8px] font-bold px-3 py-1 uppercase tracking-widest">
+        Limited Edition
+      </span>
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="p-6 space-y-4">
+    <div class="space-y-1">
+      <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-amaris-brown">
+        <a [routerLink]="['/product', product.id]" class="hover:text-amaris-gold transition-colors">{{ product.name
+          }}</a>
+      </h3>
+      <p class="text-[10px] text-gray-400 font-serif-elegant italic tracking-wider line-clamp-1">
+        {{ product.introduction || 'Handcrafted Excellence' }}
+      </p>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <span class="text-sm font-bold text-amaris-brown">RS. {{ product.price }}</span>
+
+      <!-- Quantity (Simplified for Card) -->
+      <div class="flex items-center border border-gray-200">
+        <button (click)="decreaseQuantity()"
+          class="px-2 py-1 text-gray-400 hover:text-amaris-brown transition">-</button>
+        <span class="px-2 text-[10px] font-bold text-amaris-brown border-x border-gray-200">{{ quantity }}</span>
+        <button (click)="increaseQuantity()"
+          class="px-2 py-1 text-gray-400 hover:text-amaris-brown transition">+</button>
+      </div>
+    </div>
+
+    <!-- Action -->
+    <button (click)="onAddToCart()"
+      class="w-full bg-amaris-brown text-white py-3 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-amaris-gold transition-all duration-300 shadow-sm">
+      Add to Cart
+    </button>
+  </div>
 </div>

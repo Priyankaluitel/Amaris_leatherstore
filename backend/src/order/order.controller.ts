@@ -10,21 +10,21 @@ type AuthRequest = Request & { user: { userId: number } };
 @Controller('orders')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OrderController {
-  constructor(private orderService: OrderService) {}
-@Post('checkout')
-async checkout(
-  @Req() req: AuthRequest,
-  @Body('address') address: string,
-  @Body('paymentMethod') paymentMethod: string,
-  @Body('paymentStatus') paymentStatus: string
-) {
-  return this.orderService.checkout(
-    req.user.userId,
-    address,
-    paymentMethod,
-    paymentStatus
-  );
-}
+  constructor(private orderService: OrderService) { }
+  @Post('checkout')
+  async checkout(
+    @Req() req: AuthRequest,
+    @Body('address') address: string,
+    @Body('paymentMethod') paymentMethod: string,
+    @Body('paymentStatus') paymentStatus: string
+  ) {
+    return this.orderService.checkout(
+      req.user.userId,
+      address,
+      paymentMethod,
+      paymentStatus
+    );
+  }
   @Get('my')
   async getMyOrders(@Req() req: AuthRequest) {
     return this.orderService.getMyOrders(req.user.userId);
@@ -38,7 +38,7 @@ async checkout(
 
   @Patch(':id/status')
   @Roles('ADMIN')
-  async updateStatus(@Param('id') id: string, @Body('status') status: 'PENDING' | 'SHIPPED' | 'DELIVERED') {
+  async updateStatus(@Param('id') id: string, @Body('status') status: 'PENDING' | 'PACKING' | 'SHIPPED' | 'DELIVERED') {
     return this.orderService.updateStatus(+id, status);
   }
 

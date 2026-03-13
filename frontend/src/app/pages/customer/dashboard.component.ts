@@ -1,26 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   selector: 'app-customer-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
 })
 export class CustomerDashboardComponent implements OnInit {
   orders: any[] = [];
+  loading = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private orderService: OrderService) { }
 
   ngOnInit() {
-    this.http
-      .get<any[]>('http://localhost:3000/orders/my')
-      .subscribe({
-        next: (data) => (this.orders = data),
-        error: (err) => console.error(err),
-      });
+    this.orderService.getMyOrders().subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
+    });
   }
 }
 

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
+import { CartService } from '../../../../services/cart.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
@@ -10,16 +12,31 @@ import { AuthService } from '../../../../services/auth.service';
     CommonModule,
     RouterLinkActive,
     RouterLink,
+    FormsModule
   ],
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
-  cartCount = 0;
+  searchQuery = '';
+  isSearchVisible = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private cartService: CartService,
+    private router: Router
+  ) { }
+
+  get cartCount(): number {
+    return this.cartService.totalItems;
+  }
 
   get isLoggedIn(): boolean {
     return this.auth.isLoggedIn();
+  }
+
+  get dashboardLink(): string {
+    if (!this.isLoggedIn) return '/login';
+    return this.auth.isAdmin() ? '/admin/dashboard' : '/customer/dashboard';
   }
 
   logout() {
@@ -27,6 +44,18 @@ export class NavbarComponent {
       next: () => this.router.navigate(['/login']),
       error: () => this.router.navigate(['/login']),
     });
+  }
+
+  toggleSearch() {
+    this.isSearchVisible = !this.isSearchVisible;
+  }
+
+  onSearch() {
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/products'], { queryParams: { search: this.searchQuery } });
+      this.isSearchVisible = false;
+      this.searchQuery = '';
+    }
   }
 }
 

@@ -16,8 +16,9 @@ export class AddProductComponent {
   stock = 0;
   category: Category = 'OTHER';
   imageUrl = '';
+  introduction = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   addProduct() {
     if (!this.name || !this.price) {
@@ -31,6 +32,7 @@ export class AddProductComponent {
         price: this.price,
         stock: this.stock,
         category: this.category,
+        introduction: this.introduction,
         imageUrl: this.imageUrl || undefined,
       })
       .subscribe({
@@ -42,6 +44,7 @@ export class AddProductComponent {
           this.stock = 0;
           this.category = 'OTHER';
           this.imageUrl = '';
+          this.introduction = '';
         },
         error: (err) => {
           console.error(err);

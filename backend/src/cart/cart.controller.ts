@@ -9,9 +9,8 @@ type AuthRequest = Request & { user: { userId: number } };
 
 @Controller('cart')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('CUSTOMER')
 export class CartController {
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService) { }
 
   @Get()
   getCart(@Req() req: AuthRequest) {
@@ -19,21 +18,21 @@ export class CartController {
   }
 
   @Post('add')
-addItem(
-  @Body('userId') userId: number,
-  @Body('productId') productId: number,
-  @Body('quantity') quantity: number,
-) {
-  return this.cartService.addItem(userId, productId, quantity);
-}
+  addItem(
+    @Req() req: AuthRequest,
+    @Body('productId') productId: number,
+    @Body('quantity') quantity: number,
+  ) {
+    return this.cartService.addItem(req.user.userId, productId, quantity || 1);
+  }
 
-@Delete('remove')
-removeItem(
-  @Body('userId') userId: number,
-  @Body('productId') productId: number,
-) {
-  return this.cartService.removeItem(userId, productId);
-}
+  @Delete('remove/:itemId')
+  removeItem(
+    @Req() req: AuthRequest,
+    @Param('itemId') itemId: string,
+  ) {
+    return this.cartService.removeItem(req.user.userId, +itemId);
+  }
 
   @Delete('clear')
   clearCart(@Req() req: AuthRequest) {

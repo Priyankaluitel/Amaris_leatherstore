@@ -1,34 +1,231 @@
-<h2>Admin Dashboard</h2>
+<div class="min-h-screen bg-gray-50 font-serif text-brownDark p-4 md:p-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8 border-b border-brownLight pb-6">
+      <h1 class="text-3xl font-bold uppercase tracking-widest text-[#3b2f2f]">Admin Dashboard</h1>
+      <div class="flex items-center gap-4">
+        <button (click)="switchTab('products')"
+          [class]="activeTab === 'products' ? 'bg-gold text-brownDark' : 'bg-brownDark text-cream'"
+          class="px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition shadow-md">
+          Inventory
+        </button>
+        <button (click)="switchTab('orders')"
+          [class]="activeTab === 'orders' ? 'bg-gold text-brownDark' : 'bg-brownDark text-cream'"
+          class="px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition shadow-md">
+          Orders
+        </button>
+      </div>
+    </div>
 
-<div class="add-box mb-6">
-  <input placeholder="Product Name" [(ngModel)]="newProduct.name" />
-  <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
-  <select [(ngModel)]="newProduct.category">
-    <option *ngFor="let cat of ['ELECTRONICS','CLOTHING','SPORTS','BOOKS','OTHER']" [value]="cat">{{ cat }}</option>
-  </select>
- <input type="file" (change)="onFileChange($event)" />
-  <button (click)="addProduct()">Add Product</button>
+    <!-- Inventory Section (Existing logic wrapped in activeTab check) -->
+    <div *ngIf="activeTab === 'products'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- CRUD Form Card -->
+      <div class="lg:col-span-1 bg-white rounded-2xl shadow-xl p-8 border border-brownLight/20 sticky top-8 h-fit">
+        <h2 class="text-xl font-bold mb-6 uppercase tracking-wider text-gold flex items-center gap-2">
+          <span>{{ isEditing ? 'Edit Product' : 'Add New Product' }}</span>
+        </h2>
+
+        <form (ngSubmit)="onSubmit()" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Product Name</label>
+            <input type="text" [(ngModel)]="productForm.name" name="name"
+              class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition"
+              placeholder="e.g. Vintage Briefcase" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Price (Rs.)</label>
+              <input type="number" [(ngModel)]="productForm.price" name="price"
+                class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Stock</label>
+              <input type="number" [(ngModel)]="productForm.stock" name="stock"
+                class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Category</label>
+            <select [(ngModel)]="productForm.category" name="category"
+              class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition">
+              <option value="BAGS">Bags</option>
+              <option value="WALLETS">Wallets</option>
+              <option value="BELTS">Belts</option>
+              <option value="ACCESSORIES">Accessories</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Introduction</label>
+            <input type="text" [(ngModel)]="productForm.introduction" name="introduction"
+              class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition"
+              placeholder="Short catchy hook..." />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Product Image</label>
+            <div class="flex flex-col gap-2">
+              <input type="file" (change)="onFileSelected($event)" accept="image/*"
+                class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brownLight file:text-white hover:file:bg-gold transition" />
+              <p *ngIf="selectedFile" class="text-[10px] text-green-600 font-bold uppercase tracking-wider">
+                Selected: {{ selectedFile.name }}
+              </p>
+              <div *ngIf="!selectedFile && productForm.imageUrl" class="flex items-center gap-2">
+                <span class="text-[10px] text-brownLight">Current image:</span>
+                <img [src]="productForm.imageUrl" class="w-8 h-8 rounded border object-cover" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-brownLight mb-1">Description</label>
+            <textarea [(ngModel)]="productForm.description" name="description" rows="3"
+              class="w-full border-2 border-gray-100 rounded-xl px-4 py-3 focus:border-gold outline-none transition"
+              placeholder="Full product details..."></textarea>
+          </div>
+
+          <div class="pt-4 flex gap-2">
+            <button type="submit"
+              class="flex-grow bg-[#3b2f2f] text-cream py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gold hover:text-brownDark transition-all duration-300 shadow-md">
+              {{ isEditing ? 'Update Product' : 'Create Product' }}
+            </button>
+            <button *ngIf="isEditing" type="button" (click)="resetForm()"
+              class="px-6 bg-gray-200 text-brownDark py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gray-300 transition-all">
+              &times;
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Inventory Table -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl overflow-hidden border border-brownLight/20">
+        <div class="p-6 bg-[#3b2f2f] text-cream flex justify-between items-center">
+          <h2 class="text-xl font-bold uppercase tracking-wider">Product Inventory</h2>
+          <span
+            class="text-xs uppercase tracking-widest font-bold bg-gold/20 text-gold px-3 py-1 rounded-full border border-gold/30">
+            {{ products.length }} Items Total
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-100">
+                <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Product</th>
+                <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Price</th>
+                <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Stock</th>
+                <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Category</th>
+                <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight text-right">Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <tr *ngFor="let p of products" class="hover:bg-gray-50/50 transition duration-200 group">
+                <td class="py-5 px-6">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shrink-0">
+                      <img [src]="p.imageUrl || 'https://via.placeholder.com/48'" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <p class="font-bold text-brownDark leading-tight">{{ p.name }}</p>
+                      <p class="text-[10px] text-gray-400 font-bold uppercase truncate max-w-[150px]">{{ p.introduction
+                        || 'No intro' }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-5 px-6 font-bold text-brownDark">Rs.{{ p.price }}</td>
+                <td class="py-5 px-6">
+                  <span [class]="p.stock > 10 ? 'text-green-600' : 'text-orange-500'" class="font-bold">{{ p.stock
+                    }}</span>
+                </td>
+                <td class="py-5 px-6">
+                  <span
+                    class="text-[10px] font-bold uppercase tracking-wider bg-gray-100 px-2 py-1 rounded text-brownLight">
+                    {{ p.category }}
+                  </span>
+                </td>
+                <td class="py-5 px-6 text-right space-x-3">
+                  <button (click)="editProduct(p)"
+                    class="text-xs font-bold uppercase text-gold hover:text-brownDark transition-colors">Edit</button>
+                  <button (click)="deleteProduct(p.id)"
+                    class="text-xs font-bold uppercase text-red-400 hover:text-red-700 transition-colors">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="loading" class="flex flex-col items-center py-20 animate-pulse">
+            <div class="w-8 h-8 rounded-full border-4 border-gold border-t-transparent animate-spin mb-4"></div>
+            <p class="text-xs font-bold uppercase tracking-widest text-brownLight">Updating Records...</p>
+          </div>
+
+          <div *ngIf="!loading && products.length === 0" class="text-center py-20">
+            <p class="text-sm font-bold uppercase tracking-widest text-brownLight italic">Inventory is currently empty.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Management Section -->
+    <div *ngIf="activeTab === 'orders'"
+      class="bg-white rounded-2xl shadow-xl overflow-hidden border border-brownLight/20">
+      <div class="p-6 bg-[#3b2f2f] text-cream flex justify-between items-center">
+        <h2 class="text-xl font-bold uppercase tracking-wider">Customer Orders</h2>
+        <span
+          class="text-xs uppercase tracking-widest font-bold bg-gold/20 text-gold px-3 py-1 rounded-full border border-gold/30">
+          {{ orders.length }} Total Orders
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-100">
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Order ID</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Customer Email</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight">Total</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight text-center">Status</th>
+              <th class="py-4 px-6 text-xs font-bold uppercase tracking-widest text-brownLight text-right">Update Status
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            <tr *ngFor="let o of orders" class="hover:bg-gray-50/50 transition duration-200">
+              <td class="py-5 px-6 font-bold text-brownDark">#{{ o.id }}</td>
+              <td class="py-5 px-6 text-sm">{{ o.user?.email || 'Guest' }}</td>
+              <td class="py-5 px-6 font-bold text-gold">Rs.{{ o.total | number:'1.2-2' }}</td>
+              <td class="py-5 px-6 text-center">
+                <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full" [ngClass]="{
+                    'bg-gold/20 text-brownDark': o.status === 'PENDING',
+                    'bg-blue-100 text-blue-700': o.status === 'PACKING',
+                    'bg-green-100 text-green-700': o.status === 'DELIVERED',
+                    'bg-gray-100 text-gray-700': o.status === 'SHIPPED'
+                  }">
+                  {{ o.status }}
+                </span>
+              </td>
+              <td class="py-5 px-6 text-right">
+                <select (change)="updateOrderStatus(o.id, $event)"
+                  class="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs font-bold uppercase tracking-widest outline-none focus:border-gold transition">
+                  <option [selected]="o.status === 'PENDING'" value="PENDING">Pending</option>
+                  <option [selected]="o.status === 'PACKING'" value="PACKING">Packing</option>
+                  <option [selected]="o.status === 'SHIPPED'" value="SHIPPED">Shipped</option>
+                  <option [selected]="o.status === 'DELIVERED'" value="DELIVERED">Delivered</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="orders.length === 0" class="text-center py-20">
+          <p class="text-sm font-bold uppercase tracking-widest text-brownLight italic">No orders found.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<table class="w-full border">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Category</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let p of products">
-      <td>{{ p.name }}</td>
-      <td>₹{{ p.price }}</td>
-      <td>{{ p.category }}</td>
-      <td>
-        <button class="danger" (click)="p.id && deleteProduct(p.id)">
-  Delete
-</button>
-</td>
-    </tr>
-  </tbody>
-</table>

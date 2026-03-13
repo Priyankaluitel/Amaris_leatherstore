@@ -20,6 +20,10 @@ export class UpdateProductDto {
   @IsOptional()
   description?: string;
 
+  @IsString()
+  @IsOptional()
+  introduction?: string;
+
   @IsEnum(Category)
   @IsOptional()
   category?: Category;

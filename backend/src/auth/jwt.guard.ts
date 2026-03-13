@@ -10,7 +10,9 @@ export class JwtAuthGuard implements CanActivate {
     if (!token) return false;
 
     try {
-      req.user = jwt.verify(token, process.env['JWT_SECRET'] || 'mysecret');
+      const payload: any = jwt.verify(token, process.env['JWT_SECRET'] || 'mysecret');
+      // Map 'sub' to 'userId' so controllers can use req.user.userId
+      req.user = { userId: payload.sub, role: payload.role };
       return true;
     } catch {
       return false;

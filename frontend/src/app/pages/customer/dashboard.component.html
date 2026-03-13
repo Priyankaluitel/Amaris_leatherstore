@@ -1,19 +1,77 @@
-<div class="dashboard">
-  <h2>My Orders</h2>
+<div class="min-h-screen bg-cream font-serif text-brownDark py-12 px-4">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold uppercase tracking-widest text-brownDark">My Order History</h1>
+      <div class="h-1 w-20 bg-gold mx-auto mt-4"></div>
+    </div>
 
-  <div *ngIf="orders.length === 0" class="empty">
-    You have not purchased anything yet.
-  </div>
+    <div *ngIf="loading" class="flex justify-center py-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold"></div>
+    </div>
 
-  <div class="order-card" *ngFor="let order of orders">
-    <p><strong>Order ID:</strong> {{ order.id }}</p>
-    <p><strong>Date:</strong> {{ order.createdAt | date }}</p>
-    <p><strong>Total:</strong> ₹{{ order.total }}</p>
+    <div *ngIf="!loading && orders.length === 0" class="text-center py-20 bg-white border border-brownLight shadow-sm">
+      <p class="text-brownLight italic text-lg mb-8">You haven't placed any orders yet.</p>
+      <a routerLink="/products"
+        class="inline-block bg-brownDark text-cream hover:bg-gold hover:text-brownDark transition font-bold uppercase tracking-widest text-xs py-3 px-8">
+        Start Shopping
+      </a>
+    </div>
 
-    <ul>
-      <li *ngFor="let item of order.items">
-        {{ item.product.name }} × {{ item.quantity }}
-      </li>
-    </ul>
+    <div *ngIf="!loading && orders.length > 0" class="space-y-8">
+      <div *ngFor="let order of orders" class="bg-white border border-brownLight shadow-sm overflow-hidden">
+        <!-- Order Header -->
+        <div class="bg-brownDark text-cream px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="flex gap-8">
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-brownLight">Order Date</p>
+              <p class="font-bold text-sm">{{ order.createdAt | date:'mediumDate' }}</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-brownLight">Order ID</p>
+              <p class="font-bold text-sm ml-2">#{{ order.id }}</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-brownLight">Total Value</p>
+              <p class="font-bold text-sm">Rs.{{ order.total | number:'1.2-2' }}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] uppercase tracking-widest text-brownLight">Status:</span>
+            <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest" [ngClass]="{
+                'bg-gold text-brownDark': order.status === 'PENDING',
+                'bg-blue-600 text-white': order.status === 'PACKING',
+                'bg-green-600 text-white': order.status === 'DELIVERED',
+                'bg-brownLight text-white': order.status === 'SHIPPED'
+              }">
+              {{ order.status }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center border-b border-gray-100 last:border-0 py-4"
+            *ngFor="let item of order.items">
+            <div class="md:col-span-2">
+              <img [src]="item.product.imageUrl || 'assets/images/leatherbag1.jpg'"
+                class="w-20 h-20 object-cover border border-gray-100" />
+            </div>
+            <div class="md:col-span-7">
+              <h4 class="font-bold text-brownDark text-lg">{{ item.product.name }}</h4>
+              <p class="text-xs text-brownLight uppercase tracking-wider">{{ item.product.category }}</p>
+            </div>
+            <div class="md:col-span-3 text-right">
+              <p class="text-sm font-bold text-brownDark">Qty: {{ item.quantity }}</p>
+              <p class="text-lg font-bold text-gold">Rs.{{ (item.price * item.quantity) | number:'1.2-2' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer / Actions -->
+        <div class="bg-cream px-6 py-3 flex justify-end gap-4 border-t border-brownLight">
+          <p class="text-xs text-brownDark italic">Shipped to: <span class="font-bold">{{ order.address }}</span></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
-<div class="max-w-7xl mx-auto px-4">
-  <div class="w-full max-w-md bg-white rounded-xl shadow-xl p-8">
+<div class="min-h-[calc(100vh-100px)] flex items-center justify-center bg-gray-50 px-4 py-12">
+  <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl p-10 border border-brownLight/20">
 
     <h2 class="text-3xl text-brownDark text-center font-semibold mb-2">
       Contact Us
@@ -14,44 +14,26 @@
       <!-- Name -->
       <div class="mb-4">
         <label class="block text-brownDark mb-1">Name</label>
-        <input
-          type="text"
-          formControlName="name"
-          placeholder="Your name"
-          class="w-full border rounded-lg px-3 py-2
-                 focus:outline-none focus:ring-2 focus:ring-brownLight"
-        />
+        <input type="text" formControlName="name" placeholder="Your name" class="w-full border rounded-lg px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-brownLight" />
       </div>
 
       <!-- Email -->
       <div class="mb-4">
         <label class="block text-brownDark mb-1">Email</label>
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Your email"
-          class="w-full border rounded-lg px-3 py-2
-                 focus:outline-none focus:ring-2 focus:ring-brownLight"
-        />
+        <input type="email" formControlName="email" placeholder="Your email" class="w-full border rounded-lg px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-brownLight" />
       </div>
 
       <!-- Message -->
       <div class="mb-4">
         <label class="block text-brownDark mb-1">Message</label>
-        <textarea
-          rows="4"
-          formControlName="message"
-          placeholder="Write your message..."
-          class="w-full border rounded-lg px-3 py-2
-                 focus:outline-none focus:ring-2 focus:ring-brownLight"
-        ></textarea>
+        <textarea rows="4" formControlName="message" placeholder="Write your message..." class="w-full border rounded-lg px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-brownLight"></textarea>
       </div>
 
       <!-- Submit -->
-      <button
-        type="submit"
-        [disabled]="contactForm.invalid"
-        class="w-full bg-brownDark text-white py-2 rounded-lg
+      <button type="submit" [disabled]="contactForm.invalid" class="w-full bg-brownDark text-white py-2 rounded-lg
                hover:bg-opacity-90 transition disabled:opacity-50">
         Send Message
       </button>

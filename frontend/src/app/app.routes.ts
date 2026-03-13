@@ -30,7 +30,22 @@ export const routes: Routes = [
   { path: 'services', component: OurservicesComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'products', component: ProductsComponent },
+  {
+    path: 'products/:id',
+    loadComponent: () =>
+      import('./pages/product-details/product-details.component').then(
+        (m) => m.ProductDetailsComponent
+      ),
+  },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+  {
+    path: 'checkout',
+    loadComponent: () =>
+      import('./checkout/checkout.component').then(
+        (m) => m.CheckoutComponent
+      ),
+    canActivate: [AuthGuard]
+  },
 
   // Dashboards
   {
@@ -45,7 +60,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/customer/dashboard.component')
         .then(m => m.CustomerDashboardComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, customerGuard],
   },
 
   // Always last

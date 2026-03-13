@@ -1,73 +1,79 @@
-<nav class="bg-[#3b2f2f] text-[#f8f5f1] px-8 py-4 flex justify-between items-center shadow-md">
-  
-  <!-- Logo / Brand -->
-  <div class="text-2xl font-serif font-semibold tracking-wide text-[#c2a060]">
-    Amaris Leather
-  </div>
+<header class="bg-white border-b border-gray-100 font-sans-clean sticky top-0 z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
 
-  <!-- Navigation Links -->
-  <div class="flex items-center space-x-6 text-sm font-medium">
+      <!-- Mobile Menu Button (Hamburger) -->
+      <div class="flex items-center lg:hidden">
+        <button type="button" class="text-amaris-brown hover:text-amaris-gold focus:outline-none"
+          aria-label="Open menu">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
 
-    <a routerLink="/home"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Home
-    </a>
+      <!-- Left: Links -->
+      <div class="hidden lg:flex items-center space-x-12">
+        <a routerLink="/products"
+          class="text-[10px] font-bold uppercase tracking-[0.3em] text-amaris-brown hover:text-amaris-gold transition-colors">Shop
+          All</a>
+      </div>
 
-    <a routerLink="/products"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Our Products
-    </a>
+      <!-- Center: Logo -->
+      <div class="flex-shrink-0 flex flex-col items-center">
+        <a routerLink="/home" class="flex flex-col items-center">
+          <span class="text-3xl font-serif-elegant font-bold tracking-[0.2em] uppercase text-amaris-brown">Amaris</span>
+          <span
+            class="text-[8px] font-sans-clean tracking-[0.5em] text-amaris-gold uppercase -mt-2 ml-1 font-bold">Leatherstore</span>
+        </a>
+      </div>
 
-    <a routerLink="/team"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Our Team
-    </a>
+      <!-- Right: Utils -->
+      <div class="hidden lg:flex items-center space-x-6">
+        <!-- Search -->
+        <div class="relative flex items-center">
+          <input *ngIf="isSearchVisible" type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+            placeholder="Search our collection..."
+            class="absolute right-10 w-64 bg-white border-b border-amaris-gold py-1 px-4 text-[10px] font-sans-clean focus:outline-none animate-in fade-in slide-in-from-right-4 duration-300">
+          <button (click)="toggleSearch()" class="text-amaris-brown hover:text-amaris-gold transition-colors p-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </div>
 
-    <a routerLink="/services"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Our Services
-    </a>
+        <!-- Account -->
+        <a [routerLink]="dashboardLink" class="text-amaris-brown hover:text-amaris-gold transition-colors p-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </a>
 
-    <a routerLink="/contact"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Contact
-    </a>
+        <!-- Logout (Visible only when logged in) -->
+        <button *ngIf="isLoggedIn" (click)="logout()"
+          class="text-[10px] font-bold uppercase tracking-widest text-amaris-brown hover:text-amaris-gold transition-all duration-300 flex items-center p-2"
+          title="Logout">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+        </button>
 
-    <a routerLink="/faq"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      FAQ
-    </a>
+        <!-- Cart -->
+        <a routerLink="/cart" class="text-amaris-brown hover:text-amaris-gold transition-colors relative p-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span *ngIf="cartCount > 0"
+            class="absolute top-0 right-0 bg-amaris-gold text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+            {{ cartCount }}
+          </span>
+        </a>
+      </div>
 
-    <!-- Auth links -->
-    <a *ngIf="!isLoggedIn"
-       routerLink="/login"
-       routerLinkActive="border-b-2 border-[#c2a060]"
-       class="hover:text-[#c2a060] transition">
-      Login
-    </a>
-
-    <button *ngIf="isLoggedIn"
-            type="button"
-            (click)="logout()"
-            class="hover:text-[#c2a060] transition">
-      Logout
-    </button>
-
-    <!-- Cart Icon -->
-    <div class="ml-4 relative">
-      <a routerLink="/cart" class="text-xl hover:text-[#c2a060] transition">
-        🛒
-       <span class="absolute -top-2 -right-3 bg-[#c2a060] text-[#3b2f2f] text-xs px-2 rounded-full">
-  {{ cartCount }}
-</span>
-      </a>
     </div>
-
-  </div>
-</nav>
+  </nav>
+</header>

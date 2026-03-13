@@ -62,10 +62,12 @@ import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { RecaptchaModule } from 'ng-recaptcha';
 
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RecaptchaModule],
+  imports: [CommonModule, ReactiveFormsModule, RecaptchaModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -76,7 +78,7 @@ export class LoginComponent implements OnInit {
   captchaVerified = false;
   recaptchaSiteKey = '6LcGoTUsAAAAALfFf3oRozdbVdJFA-7eAY-k94iO'; // replace with your real site key
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -96,9 +98,14 @@ export class LoginComponent implements OnInit {
     // Pass captchaToken
     this.auth.login(email, password, this.captchaToken).subscribe({
       next: () => {
-        // After successful login, always land on the home page
         this.error = '';
-        this.router.navigateByUrl('/home');
+        const role = this.auth.getUserRole();
+        console.log('Login successful. Detected role:', role);
+        if (role === 'ADMIN') {
+          this.router.navigateByUrl('/admin/dashboard');
+        } else {
+          this.router.navigateByUrl('/customer/dashboard');
+        }
       },
       error: (err) => {
         console.error(err);

@@ -50,14 +50,13 @@ import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('register')
   register(@Body() body: { email: string; password: string; role?: string }) {
-    const role: Role =
-      body.role && Object.values(Role).includes(body.role as Role)
-        ? (body.role as Role)
-        : Role.CUSTOMER;
+    console.log('Registering user with role:', body.role);
+    const role: Role = body.role === 'ADMIN' ? Role.ADMIN : Role.CUSTOMER;
+    console.log('Assigned role:', role);
     return this.authService.register(body.email, body.password, role);
   }
 

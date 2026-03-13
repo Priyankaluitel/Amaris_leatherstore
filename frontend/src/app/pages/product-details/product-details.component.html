@@ -1,0 +1,128 @@
+<div class="min-h-screen bg-white font-sans-clean pt-20">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex flex-col items-center justify-center min-h-[60vh]">
+        <div class="animate-pulse flex flex-col items-center space-y-4">
+            <div class="w-12 h-12 border-4 border-amaris-gold border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-[10px] uppercase tracking-widest text-amaris-brown font-bold">Unveiling Craftsmanship...</p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="max-w-7xl mx-auto px-4 py-20 text-center">
+        <h2 class="text-2xl font-serif-elegant text-amaris-brown mb-4 font-bold">{{ error }}</h2>
+        <button (click)="goBack()"
+            class="text-amaris-gold font-bold uppercase tracking-widest text-xs border-b border-amaris-gold">Return to
+            Collection</button>
+    </div>
+
+    <!-- Product Content -->
+    <div *ngIf="!loading && !error && product" class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-x-16 items-start">
+
+            <!-- Gallery Column (Left) -->
+            <div class="space-y-8">
+                <div class="aspect-[3/4] overflow-hidden bg-gray-50 shadow-sm border border-gray-100">
+                    <img [src]="imageSrc" [alt]="product.name" class="w-full h-full object-cover">
+                </div>
+                <!-- Support Images (Mockup) -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="aspect-square bg-gray-50 overflow-hidden border border-gray-100">
+                        <img [src]="imageSrc"
+                            class="w-full h-full object-cover opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition duration-500 cursor-pointer">
+                    </div>
+                    <div class="aspect-square bg-gray-50 overflow-hidden border border-gray-100">
+                        <img [src]="imageSrc"
+                            class="w-full h-full object-cover opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition duration-500 cursor-pointer">
+                    </div>
+                    <div class="aspect-square bg-gray-50 overflow-hidden border border-gray-100">
+                        <img [src]="imageSrc"
+                            class="w-full h-full object-cover opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition duration-500 cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Column (Right - Sticky) -->
+            <div class="mt-12 lg:mt-0 lg:sticky lg:top-32 space-y-10">
+                <div class="space-y-4">
+                    <nav class="flex text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 space-x-2">
+                        <a routerLink="/home" class="hover:text-amaris-gold transition">Home</a>
+                        <span>/</span>
+                        <a routerLink="/products" class="hover:text-amaris-gold transition">{{ product.category }}</a>
+                    </nav>
+
+                    <h1 class="text-3xl md:text-5xl font-serif-elegant font-bold text-amaris-brown leading-tight">
+                        {{ product.name }}
+                    </h1>
+
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-6">
+                        <span class="text-2xl font-bold text-amaris-brown">RS. {{ product.price }}</span>
+                        <span *ngIf="product.stock > 0"
+                            class="text-[10px] uppercase tracking-widest text-amaris-gold font-bold">Handcrafted &
+                            Ready</span>
+                        <span *ngIf="product.stock <= 0"
+                            class="text-[10px] uppercase tracking-widest text-red-800 font-bold">Sold Out</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-amaris-brown">The Story</h3>
+                        <p class="text-[11px] font-serif-elegant italic text-amaris-gold tracking-wide"
+                            *ngIf="product.introduction">
+                            "{{ product.introduction }}"
+                        </p>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed font-light">
+                        {{ product.description || 'A timeless handcrafted piece designed for longevity and unmatched
+                        style. Meticulously made from premium hides.' }}
+                    </p>
+                </div>
+
+                <!-- Actions -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-8">
+                        <label
+                            class="text-[10px] font-bold uppercase tracking-widest text-amaris-brown">Quantity</label>
+                        <div class="flex items-center border border-gray-200 bg-white">
+                            <button (click)="decreaseQuantity()"
+                                class="px-4 py-2 text-gray-400 hover:text-amaris-brown transition text-lg">-</button>
+                            <span class="px-6 py-2 text-sm font-bold text-amaris-brown border-x border-gray-200">{{
+                                quantity }}</span>
+                            <button (click)="increaseQuantity()"
+                                class="px-4 py-2 text-gray-400 hover:text-amaris-brown transition text-lg">+</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col space-y-4">
+                        <button (click)="addToCart()" [disabled]="product.stock === 0"
+                            class="w-full bg-amaris-brown text-white py-5 px-8 text-xs font-bold uppercase tracking-[0.3em] hover:bg-amaris-gold transition-all duration-500 shadow-lg disabled:bg-gray-100 disabled:text-gray-400">
+                            Add to Bag
+                        </button>
+                        <button
+                            class="w-full border-2 border-amaris-brown text-amaris-brown py-5 px-8 text-xs font-bold uppercase tracking-[0.3em] hover:bg-amaris-brown hover:text-white transition-all duration-500">
+                            Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="pt-10 border-t border-gray-100 grid grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-bold uppercase tracking-widest text-amaris-brown italic">Artisanal
+                            Promise</h4>
+                        <p class="text-[10px] text-gray-400 leading-relaxed">Each piece is uniquely handcrafted by
+                            master artisans in our workshops.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-bold uppercase tracking-widest text-amaris-brown italic">Leather
+                            Care</h4>
+                        <p class="text-[10px] text-gray-400 leading-relaxed">Full-grain leather that develops a
+                            beautiful patina over time.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

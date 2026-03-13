@@ -2,9 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #f8f5f1;
-  font-family: serif;
+:root {
+  --amaris-brown: #3b2f2f;
+  /* Deep leather brown */
+  --amaris-brown-light: #524242;
+  --amaris-gold: #c2a060;
+  /* Warm gold from logo */
+  --amaris-gold-hover: #b39151;
+  --amaris-offwhite: #f8f5f1;
 }
 
+body {
+  background-color: var(--amaris-offwhite);
+  color: var(--amaris-brown);
+  font-family: 'Assistant', sans-serif;
+}
 
+h1,
+h2,
+h3,
+h4,
+.font-serif-elegant {
+  font-family: 'Playfair Display', serif;
+}
+
+.text-amaris-brown {
+  color: var(--amaris-brown) !important;
+}
+
+.text-amaris-gold {
+  color: var(--amaris-gold) !important;
+}
+
+.bg-amaris-brown {
+  background-color: var(--amaris-brown) !important;
+}
+
+.bg-amaris-gold {
+  background-color: var(--amaris-gold) !important;
+}
+
+.border-amaris-brown {
+  border-color: var(--amaris-brown) !important;
+}
+
+.border-amaris-gold {
+  border-color: var(--amaris-gold) !important;
+}
+
+.hover\:text-amaris-gold:hover {
+  color: var(--amaris-gold) !important;
+}
+
+.hover\:bg-amaris-gold:hover {
+  background-color: var(--amaris-gold) !important;
+}
+
+.hover\:bg-amaris-brown:hover {
+  background-color: var(--amaris-brown) !important;
+}
+
+.font-sans-clean {
+  font-family: 'Assistant', sans-serif;
+}

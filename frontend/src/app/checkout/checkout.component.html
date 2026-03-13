@@ -1,5 +1,59 @@
-<h2>Checkout</h2>
+<div class="min-h-screen bg-cream font-serif text-brownDark py-12 px-4">
+    <div class="max-w-4xl mx-auto">
 
-<textarea [(ngModel)]="address" placeholder="Delivery Address"></textarea>
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold uppercase tracking-widest text-brownDark mb-2">Secure Checkout</h1>
+            <div class="h-1 w-16 bg-gold mx-auto"></div>
+        </div>
 
-<button (click)="checkout()">Place Order</button>
+        <!-- Payment Success State -->
+        <div *ngIf="orderPlaced" class="bg-white border-t-4 border-green-600 shadow-md p-10 text-center">
+            <h2 class="text-3xl font-bold text-brownDark mb-4">Payment Successful!</h2>
+            <p class="text-brownLight mb-8 text-lg">Thank you for your purchase. Your order of premium Amaris leather
+                goods is being processed.</p>
+            <a routerLink="/products"
+                class="inline-block bg-brownDark text-cream hover:bg-gold hover:text-brownDark transition font-bold uppercase tracking-widest text-sm py-3 px-8">
+                Return to Shop
+            </a>
+        </div>
+
+        <!-- Payment Form State -->
+        <div *ngIf="!orderPlaced"
+            class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white shadow-sm border border-brownLight p-8">
+
+            <!-- Dummy Form -->
+            <div>
+                <h3
+                    class="text-xl font-bold uppercase tracking-widest text-brownDark mb-6 border-b border-gray-200 pb-2">
+                    Payment Details</h3>
+                <p
+                    class="text-xs text-red-600 font-bold uppercase tracking-widest mb-6 bg-red-50 p-3 border border-red-200">
+                    Demo mode: No real payment required.
+                </p>
+
+                <form (ngSubmit)="processPayment()" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-brownDark mb-2">Delivery
+                            Address</label>
+                        <textarea [(ngModel)]="address" name="address" required
+                            class="w-full border border-gray-300 rounded-none focus:border-gold focus:ring-gold py-2 px-3 shadow-sm bg-gray-50"
+                            placeholder="123 Leather Lane"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-widest text-brownDark mb-2">Card
+                            Number</label>
+                        <input type="text" required value="4242 4242 4242 4242"
+                            class="w-full border border-gray-300 rounded-none focus:border-gold focus:ring-gold py-2 px-3 shadow-sm bg-gray-50 text-xl tracking-widest">
+                    </div>
+
+                    <button type="submit" [disabled]="processing || !address"
+                        class="w-full bg-brownDark text-cream hover:bg-gold hover:text-brownDark transition font-bold uppercase tracking-widest text-sm py-4 mt-6 disabled:opacity-50">
+                        <span *ngIf="!processing">Confirm Order</span>
+                        <span *ngIf="processing">Processing...</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

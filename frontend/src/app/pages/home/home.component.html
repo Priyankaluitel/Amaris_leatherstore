@@ -1,93 +1,113 @@
-<!-- 
-<div class="min-h-screen flex flex-col">
-  <main class="flex-1 p-6 bg-gray-100">
-    <h2 class="text-2xl font-semibold mb-4">Featured Products</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div class="bg-white rounded shadow p-4 hover:shadow-lg transition">
-    <img
-  src="assets/images/leatherbag1.jpg"
-  alt="Product"
-  class="w-full h-40 object-cover mb-2 rounded"
-/>
-        <h3 class="font-semibold">Leather Bag</h3>
-        <p class="text-gray-600">Rs.1200</p>
-        <button class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition">
-          Add to Cart
-        </button>
-      </div>
-    
-      <div class="bg-white rounded shadow p-4 hover:shadow-lg transition">
-        <img
-  src="assets/images/leatherbag6.jpg"
-  alt="Product"
-  class="w-full h-40 object-cover mb-2 rounded"
-/>
-        <p class="text-gray-600">Rs.600</p>
-        <button class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </main>
+<div class="bg-white font-sans-clean overflow-x-hidden">
 
-  <footer class="bg-gray-800 text-white p-4 text-center">
-    &copy; 2025 Amaris Leather Store. All rights reserved.
-  </footer>
-</div> -->
-<section class="bg-[#f8f5f1] py-16">
-  <div class="max-w-6xl mx-auto px-4 grid gap-10 md:grid-cols-2 items-center">
-    <div>
-      <h1 class="text-4xl md:text-5xl font-serif font-semibold text-[#3b2f2f] mb-4">
-        Timeless leather pieces, crafted to last.
+  <!-- Hero Section -->
+  <section class="relative h-[80vh] w-full bg-amaris-brown flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img src="assets/images/leatherbag3.jpg" alt="Amaris Hero" class="w-full h-full object-cover opacity-70">
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+    <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif-elegant font-bold tracking-tight mb-8 drop-shadow-lg">
+        Timeless Artistry. <br> Modern Craft.
       </h1>
-      <p class="text-gray-700 mb-4">
-        At Amaris Leather, we handcraft premium bags, wallets, belts and everyday essentials
-        using ethically sourced leather and traditional techniques.
+      <p class="text-lg md:text-xl font-medium tracking-wide mb-10 drop-shadow-md">
+        Handcrafted full-grain leather goods for the discerning individual.
       </p>
-      <p class="text-gray-700 mb-6">
-        Our mission is to bring together modern design and classic durability—so every piece
-        you buy feels special from day one and ages beautifully with you.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a
-          routerLink="/products"
-          class="inline-flex items-center px-6 py-2 rounded-full bg-[#3b2f2f] text-[#f8f5f1] hover:bg-[#2a2222] transition"
-        >
-          Browse our products
-        </a>
-        <a
-          routerLink="/about"
-          class="inline-flex items-center px-6 py-2 rounded-full border border-[#3b2f2f] text-[#3b2f2f] hover:bg-[#3b2f2f] hover:text-[#f8f5f1] transition"
-        >
-          Learn more about us
-        </a>
-      </div>
+      <a routerLink="/products"
+        class="inline-block bg-amaris-gold text-white hover:bg-white hover:text-amaris-brown transition-all duration-300 font-bold uppercase tracking-[0.3em] text-xs py-5 px-12 shadow-xl">
+        Shop Collection
+      </a>
     </div>
+  </section>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="rounded-2xl overflow-hidden shadow-lg">
-        <img
-          src="assets/images/leatherbag3.jpg"
-          alt="Leather bag"
-          class="w-full h-56 object-cover"
-        />
+  <!-- Circular Categories Section -->
+  <section class="max-w-7xl mx-auto px-4 py-20">
+    <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+      <a *ngFor="let cat of ['WALLETS', 'BELTS', 'ACCESSORIES']" [routerLink]="['/products']"
+        [queryParams]="{category: cat}" class="flex flex-col items-center group space-y-4">
+        <div
+          class="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-gray-100 p-1 group-hover:border-amaris-gold transition-all duration-500 overflow-hidden shadow-sm">
+          <div class="w-full h-full rounded-full overflow-hidden bg-gray-50">
+            <img [src]="getCategoryImage(cat)" [alt]="cat"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          </div>
+        </div>
+        <span
+          class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-amaris-brown group-hover:text-amaris-gold transition-colors">
+          {{ cat }}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Collage Section: The Artisanal Edition -->
+  <section class="bg-gray-50 py-24">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16 space-y-4">
+        <h2 class="text-3xl md:text-4xl font-serif-elegant font-bold text-amaris-brown">The Artisanal Edition</h2>
+        <p class="text-amaris-gold text-sm italic tracking-widest uppercase font-bold">Crafted by hand, worn in many
+          ways</p>
       </div>
-      <div class="space-y-4">
-        <div class="rounded-2xl overflow-hidden shadow-lg">
-          <img
-            src="assets/images/leatherbag4.jpg"
-            alt="Leather wallet"
-            class="w-full h-24 object-cover"
-          />
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <!-- Main Collage Item 1 -->
+        <div class="col-span-2 row-span-2 group relative overflow-hidden bg-white shadow-sm">
+          <img src="assets/images/leatherbag1.jpg" alt="Artisanal 1"
+            class="w-full h-[600px] object-cover group-hover:scale-105 transition-transform duration-1000">
+          <div class="absolute bottom-6 left-6 text-white z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span class="text-[10px] uppercase tracking-widest font-bold bg-amaris-gold px-3 py-1">Featured
+              Collection</span>
+          </div>
         </div>
-        <div class="rounded-2xl overflow-hidden shadow-lg">
-          <img
-            src="assets/images/leatherbag2.jpg"
-            alt="Leather belt"
-            class="w-full h-24 object-cover"
-          />
+
+        <!-- Collage Item 2 -->
+        <div class="group relative overflow-hidden bg-white shadow-sm">
+          <img src="assets/images/leatherbag2.jpg" alt="Artisanal 2"
+            class="w-full h-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-1000">
         </div>
+
+        <!-- Collage Item 3 -->
+        <div class="group relative overflow-hidden bg-white shadow-sm">
+          <img src="assets/images/leatherbag4.jpg" alt="Artisanal 3"
+            class="w-full h-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-1000">
+        </div>
+
+        <!-- Row 2 Mix -->
+        <div class="col-span-2 group relative overflow-hidden bg-white shadow-sm">
+          <img src="assets/images/leatherbag3.jpg" alt="Artisanal 4"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-1000">
+          <div
+            class="absolute inset-0 bg-amaris-brown/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <a routerLink="/products"
+              class="bg-white text-amaris-brown px-6 py-3 text-[10px] font-bold uppercase tracking-widest shadow-lg hover:bg-amaris-gold hover:text-white transition-colors">View
+              Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-20 text-center">
+        <a routerLink="/products"
+          class="inline-block border-2 border-amaris-brown text-amaris-brown hover:bg-amaris-brown hover:text-white transition-all duration-300 font-bold uppercase tracking-[0.4em] text-[10px] py-4 px-10">
+          Explore All Collections
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Quote Section -->
+  <section class="py-32 px-4 bg-white">
+    <div class="max-w-3xl mx-auto text-center space-y-12">
+      <div class="flex justify-center">
+        <span class="text-4xl text-amaris-gold font-serif-elegant italic">"</span>
+      </div>
+      <p class="text-2xl md:text-3xl font-serif-elegant leading-relaxed text-amaris-brown">
+        Quality is not an act, it is a habit. Our leather is sourced responsibly and crafted to last a lifetime.
+      </p>
+      <div class="flex flex-col items-center space-y-2">
+        <div class="w-12 h-px bg-amaris-gold"></div>
+        <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-amaris-gold">Amaris Philosophy</span>
+      </div>
+    </div>
+  </section>
+
+</div>
